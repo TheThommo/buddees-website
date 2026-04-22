@@ -14,7 +14,7 @@ jobs:
       - name: Deploy via FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
-          server: ftp.buddees.ai
+          server: 107.180.115.83
           username: deploy@buddees.ai
           password: ${{ secrets.FTP_PASSWORD }}
           server-dir: /public_html/
