@@ -1,0 +1,1023 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ROI Calculator — How Fast Does Buddees Pay For Itself?</title>
+  <meta name="description" content="Answer 7 quick questions and see exactly how much Buddees could save your trades business every month.">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:           #0A0A0F;
+      --bg-card:      #111116;
+      --bg-elevated:  #1A1A22;
+      --border:       rgba(255,255,255,0.08);
+      --blue:         #0066FF;
+      --blue-light:   rgba(0,102,255,0.14);
+      --green:        #34D399;
+      --green-light:  rgba(52,211,153,0.14);
+      --amber:        #FFB400;
+      --red:          #FF3B30;
+      --text:         #FFFFFF;
+      --text-sec:     rgba(255,255,255,0.72);
+      --text-muted:   rgba(255,255,255,0.44);
+      --radius:       16px;
+      --radius-sm:    10px;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      min-height: 100vh;
+      line-height: 1.5;
+    }
+
+    /* ─── NAV ─── */
+    .nav {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 18px 40px;
+      border-bottom: 1px solid var(--border);
+      position: sticky; top: 0;
+      background: rgba(10,10,15,0.94);
+      backdrop-filter: blur(14px);
+      z-index: 100;
+    }
+    .nav-logo { height: 30px; }
+    .nav-back {
+      color: var(--text-muted); text-decoration: none;
+      font-size: 14px; font-weight: 500;
+      display: flex; align-items: center; gap: 6px;
+      transition: color 0.2s;
+    }
+    .nav-back:hover { color: var(--text); }
+
+    /* ─── HERO ─── */
+    .hero {
+      text-align: center;
+      padding: 64px 24px 48px;
+      max-width: 680px; margin: 0 auto;
+    }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--blue-light);
+      border: 1px solid rgba(0,102,255,0.28);
+      color: #60A5FA; font-size: 12px; font-weight: 700;
+      padding: 6px 16px; border-radius: 100px;
+      letter-spacing: 0.06em; text-transform: uppercase;
+      margin-bottom: 24px;
+    }
+    .hero h1 {
+      font-size: clamp(30px, 5.5vw, 50px);
+      font-weight: 800; letter-spacing: -0.03em; line-height: 1.1;
+      margin-bottom: 16px;
+    }
+    .hero h1 span { color: var(--blue); }
+    .hero p { font-size: 17px; color: var(--text-sec); max-width: 460px; margin: 0 auto; }
+
+    /* ─── CONTAINER ─── */
+    .container { max-width: 840px; margin: 0 auto; padding: 0 24px 80px; }
+
+    /* ─── CALC CARD ─── */
+    .calc-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 20px; padding: 40px;
+      margin-bottom: 28px;
+    }
+
+    .section-label {
+      font-size: 11px; font-weight: 700; letter-spacing: 0.1em;
+      color: var(--blue); text-transform: uppercase;
+      margin-bottom: 20px;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .section-label::after {
+      content: ''; flex: 1; height: 1px; background: var(--border);
+    }
+
+    .form-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 20px; margin-bottom: 32px;
+    }
+    .form-grid.three { grid-template-columns: 1fr 1fr 1fr; }
+
+    .form-group { display: flex; flex-direction: column; gap: 8px; }
+    .form-group label { font-size: 13px; font-weight: 600; color: var(--text-sec); }
+    .form-group .hint { font-size: 12px; font-weight: 400; color: var(--text-muted); }
+
+    .input-wrap { position: relative; }
+    .input-prefix {
+      position: absolute; left: 13px; top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-muted); font-size: 15px; font-weight: 500;
+      pointer-events: none;
+    }
+
+    input[type="number"], select {
+      width: 100%;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      color: var(--text); font-family: 'DM Sans', sans-serif;
+      font-size: 16px; font-weight: 500;
+      padding: 13px 16px; outline: none;
+      transition: border-color 0.2s;
+      -webkit-appearance: none; appearance: none;
+    }
+    input[type="number"].has-prefix { padding-left: 28px; }
+    input[type="number"]:focus, select:focus { border-color: rgba(0,102,255,0.6); }
+    input[type="number"]::-webkit-inner-spin-button,
+    input[type="number"]::-webkit-outer-spin-button { display: none; }
+
+    select {
+      cursor: pointer;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='7' viewBox='0 0 12 7'%3E%3Cpath d='M1 1l5 5 5-5' stroke='rgba(255,255,255,0.35)' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat; background-position: right 14px center;
+      padding-right: 38px;
+    }
+
+    /* marketing toggle */
+    .toggle-group { display: flex; gap: 8px; }
+    .toggle-btn {
+      flex: 1; padding: 13px 8px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      background: var(--bg-elevated);
+      color: var(--text-muted);
+      font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 600;
+      cursor: pointer; transition: all 0.2s; text-align: center;
+    }
+    .toggle-btn.active {
+      background: var(--blue-light);
+      border-color: rgba(0,102,255,0.35); color: #60A5FA;
+    }
+
+    .conditional { display: none; }
+    .conditional.show { display: flex; flex-direction: column; gap: 8px; }
+
+    /* calculate button */
+    .calc-btn {
+      width: 100%; padding: 18px;
+      background: var(--blue); border: none;
+      border-radius: var(--radius-sm);
+      color: #fff; font-family: 'DM Sans', sans-serif;
+      font-size: 17px; font-weight: 700;
+      cursor: pointer; transition: all 0.2s;
+      display: flex; align-items: center; justify-content: center; gap: 10px;
+      letter-spacing: -0.01em; margin-top: 8px;
+    }
+    .calc-btn:hover { background: #0052CC; transform: translateY(-1px); }
+    .calc-btn:active { transform: none; }
+    .calc-btn.loading { opacity: 0.75; pointer-events: none; }
+    .spinner {
+      width: 20px; height: 20px;
+      border: 2px solid rgba(255,255,255,0.3);
+      border-top-color: #fff; border-radius: 50%;
+      animation: spin 0.7s linear infinite; display: none;
+    }
+    .calc-btn.loading .spinner { display: block; }
+    .calc-btn.loading .btn-label { display: none; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ─── RESULTS ─── */
+    .results { display: none; animation: fadeUp 0.5s ease; }
+    .results.show { display: block; }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* teaser hero */
+    .res-hero {
+      background: linear-gradient(135deg, rgba(0,102,255,0.1), rgba(52,211,153,0.06));
+      border: 1px solid rgba(0,102,255,0.2);
+      border-radius: 20px; padding: 40px; text-align: center;
+      margin-bottom: 20px;
+    }
+    .res-hero .eyebrow {
+      font-size: 12px; font-weight: 700; letter-spacing: 0.08em;
+      text-transform: uppercase; color: var(--text-muted); margin-bottom: 12px;
+    }
+    .res-hero .big-num {
+      font-size: clamp(52px, 9vw, 80px); font-weight: 800;
+      letter-spacing: -0.04em; color: var(--green);
+      line-height: 1; margin-bottom: 8px;
+    }
+    .res-hero .sub { font-size: 17px; color: var(--text-sec); margin-bottom: 28px; }
+    .meta-row { display: flex; gap: 40px; justify-content: center; flex-wrap: wrap; }
+    .meta-stat .val { font-size: 24px; font-weight: 700; }
+    .meta-stat .lbl { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+
+    /* locked section */
+    .locked-wrap { position: relative; }
+    .lock-overlay {
+      display: flex; flex-direction: column;
+      align-items: center; gap: 14px;
+      padding: 24px 24px 12px;
+      text-align: center;
+    }
+    .lock-text { font-size: 15px; font-weight: 600; color: var(--text-sec); }
+    .unlock-btn {
+      padding: 14px 32px;
+      background: var(--blue); border: none; border-radius: 100px;
+      color: #fff; font-family: 'DM Sans', sans-serif;
+      font-size: 15px; font-weight: 700; cursor: pointer;
+      transition: all 0.2s; box-shadow: 0 8px 24px rgba(0,102,255,0.35);
+    }
+    .unlock-btn:hover { background: #0052CC; transform: translateY(-2px); }
+
+    /* blurred panels */
+    .blur-panel { filter: blur(7px); pointer-events: none; user-select: none; transition: filter 0.6s; }
+    .blur-panel.unlocked { filter: none; pointer-events: auto; user-select: auto; }
+
+    /* breakdown cards */
+    .breakdown-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 16px; margin-bottom: 20px;
+    }
+    .bc {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 24px;
+    }
+    .bc-icon {
+      width: 40px; height: 40px; border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 19px; margin-bottom: 14px;
+    }
+    .bc-amount { font-size: 30px; font-weight: 800; letter-spacing: -0.03em; margin-bottom: 4px; }
+    .bc-name { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
+    .bc-note { font-size: 12px; color: var(--text-muted); line-height: 1.5; }
+
+    /* chart card */
+    .chart-card {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: 20px; padding: 28px; margin-bottom: 20px;
+    }
+    .chart-card h3 { font-size: 15px; font-weight: 700; margin-bottom: 22px; }
+    .chart-wrap { position: relative; height: 260px; }
+
+    /* package rec */
+    .pkg-card {
+      background: linear-gradient(135deg, rgba(0,102,255,0.1), rgba(0,102,255,0.04));
+      border: 1px solid rgba(0,102,255,0.22);
+      border-radius: 20px; padding: 28px 32px;
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 24px; flex-wrap: wrap; margin-bottom: 28px;
+    }
+    .pkg-badge {
+      font-size: 11px; font-weight: 700; letter-spacing: 0.08em;
+      color: var(--blue); text-transform: uppercase; margin-bottom: 6px;
+    }
+    .pkg-name { font-size: 22px; font-weight: 800; letter-spacing: -0.02em; }
+    .pkg-desc { font-size: 13px; color: var(--text-muted); margin-top: 4px; }
+    .pkg-price { font-size: 34px; font-weight: 800; letter-spacing: -0.03em; }
+    .pkg-price-sub { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+    .pkg-cta {
+      padding: 13px 26px; background: var(--blue); border: none; border-radius: 100px;
+      color: #fff; font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 700;
+      cursor: pointer; text-decoration: none; display: inline-block; white-space: nowrap;
+      transition: all 0.2s;
+    }
+    .pkg-cta:hover { background: #0052CC; }
+
+    /* ─── MODAL ─── */
+    .modal-bg {
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.82); backdrop-filter: blur(10px);
+      z-index: 1000; display: none;
+      align-items: center; justify-content: center; padding: 24px;
+    }
+    .modal-bg.open { display: flex; }
+    .modal {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: 24px; padding: 40px;
+      max-width: 460px; width: 100%;
+      animation: fadeUp 0.3s ease;
+    }
+    .modal-icon {
+      width: 52px; height: 52px; background: var(--blue-light);
+      border-radius: 14px; display: flex; align-items: center;
+      justify-content: center; font-size: 26px; margin-bottom: 20px;
+    }
+    .modal h2 { font-size: 22px; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 8px; }
+    .modal p { font-size: 14px; color: var(--text-muted); margin-bottom: 24px; line-height: 1.6; }
+    .modal-fields { display: flex; flex-direction: column; gap: 12px; }
+    .modal-fields input {
+      width: 100%;
+      background: var(--bg-elevated); border: 1px solid var(--border);
+      border-radius: var(--radius-sm); color: var(--text);
+      font-family: 'DM Sans', sans-serif; font-size: 16px;
+      padding: 14px 16px; outline: none; transition: border-color 0.2s;
+    }
+    .modal-fields input:focus { border-color: rgba(0,102,255,0.5); }
+    .modal-submit {
+      width: 100%; padding: 16px; background: var(--blue); border: none;
+      border-radius: var(--radius-sm); color: #fff;
+      font-family: 'DM Sans', sans-serif; font-size: 16px; font-weight: 700;
+      cursor: pointer; transition: all 0.2s; margin-top: 4px;
+    }
+    .modal-submit:hover { background: #0052CC; }
+    .modal-fine { font-size: 11px; color: var(--text-muted); text-align: center; margin-top: 14px; }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 640px) {
+      .nav { padding: 14px 16px; }
+      .nav-logo { height: 24px; }
+      .hero { padding: 40px 16px 32px; }
+      .hero h1 { font-size: 28px; line-height: 1.15; }
+      .hero p { font-size: 15px; }
+      .container { padding: 0 12px 60px; }
+      .calc-card { padding: 20px 14px; border-radius: 14px; }
+      .form-grid, .form-grid.three { grid-template-columns: 1fr; gap: 14px; }
+      .form-group label { font-size: 13px; }
+      input[type="number"], select { font-size: 16px; padding: 12px 14px; }
+      .toggle-btn { font-size: 13px; padding: 11px 6px; }
+      .calc-btn { font-size: 15px; padding: 15px; }
+      .section-label { font-size: 10px; margin-bottom: 14px; }
+      .res-hero { padding: 24px 16px; border-radius: 14px; }
+      .res-hero .big-num { font-size: 44px; }
+      .res-hero .sub { font-size: 14px; margin-bottom: 20px; }
+      .meta-row { gap: 20px; }
+      .meta-stat .val { font-size: 20px; }
+      .meta-stat .lbl { font-size: 11px; }
+      .breakdown-grid { grid-template-columns: 1fr; gap: 12px; }
+      .bc { padding: 18px; border-radius: 12px; }
+      .bc-amount { font-size: 24px; }
+      .bc-name { font-size: 13px; }
+      .bc-note { font-size: 11px; }
+      .chart-card { padding: 18px; border-radius: 14px; }
+      .chart-card h3 { font-size: 14px; margin-bottom: 16px; }
+      .chart-wrap { height: 200px; }
+      .pkg-card { flex-direction: column; align-items: flex-start; padding: 20px 18px; border-radius: 14px; gap: 16px; }
+      .pkg-name { font-size: 18px; }
+      .pkg-price { font-size: 28px; }
+      .pkg-cta { width: 100%; text-align: center; padding: 14px; }
+      .modal { padding: 24px 18px; border-radius: 18px; max-height: 90vh; overflow-y: auto; }
+      .modal h2 { font-size: 19px; }
+      .modal p { font-size: 13px; margin-bottom: 16px; }
+      .modal-fields input, .modal-fields select { font-size: 16px; padding: 12px 14px; }
+      .modal-submit { font-size: 15px; padding: 14px; }
+      .modal-bg { padding: 12px; align-items: flex-start; padding-top: 5vh; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <img src="./logos/buddees-logo-02.png" alt="Buddees" class="nav-logo">
+  <div style="display:flex;align-items:center;gap:24px">
+    <a href="./index.html" class="nav-back">← Back to Buddees.ai</a>
+    <a href="./support.html" class="nav-back">Support</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-badge">⚡ Free ROI Calculator</div>
+  <h1>See how fast <span>Buddees pays</span><br>for itself</h1>
+  <p>Answer 7 quick questions. We'll show you exactly how much you stand to save every single month.</p>
+</div>
+
+<div class="container">
+
+  <!-- CALCULATOR FORM -->
+  <div class="calc-card">
+
+    <!-- SECTION 1 -->
+    <div class="section-label">Your Team</div>
+    <div class="form-grid" style="margin-bottom:32px">
+      <div class="form-group">
+        <label>Admin / office staff <span class="hint">(including yourself)</span></label>
+        <input type="number" id="f-staff" min="1" max="99" value="2" placeholder="e.g. 2">
+      </div>
+      <div class="form-group">
+        <label>Average monthly wage per staff</label>
+        <div class="input-wrap">
+          <span class="input-prefix">$</span>
+          <input type="number" id="f-wage" class="has-prefix" min="0" value="3500" placeholder="e.g. 3500">
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 2 -->
+    <div class="section-label">Your Calls &amp; Jobs</div>
+    <div class="form-grid three" style="margin-bottom:32px">
+      <div class="form-group">
+        <label>Calls received per day</label>
+        <input type="number" id="f-calls" min="1" value="15" placeholder="e.g. 15">
+      </div>
+      <div class="form-group">
+        <label>Calls missed per day</label>
+        <input type="number" id="f-missed" min="0" value="4" placeholder="e.g. 4">
+      </div>
+      <div class="form-group">
+        <label>Average job value</label>
+        <div class="input-wrap">
+          <span class="input-prefix">$</span>
+          <input type="number" id="f-job" class="has-prefix" min="0" value="350" placeholder="e.g. 350">
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 3 -->
+    <div class="section-label">Your Marketing</div>
+    <div class="form-grid" style="margin-bottom:20px">
+      <div class="form-group">
+        <label>Time to create one social post</label>
+        <select id="f-post-time">
+          <option value="0.5">30 minutes</option>
+          <option value="1" selected>1 hour</option>
+          <option value="2">2 hours</option>
+          <option value="3">3+ hours</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>How do you handle marketing?</label>
+        <div class="toggle-group">
+          <button class="toggle-btn active" id="btn-inhouse" onclick="setMkt('inhouse')">In-house</button>
+          <button class="toggle-btn" id="btn-out" onclick="setMkt('outsourced')">Outsourced</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="f-cost-wrap" class="conditional form-group" style="margin-bottom:24px">
+      <label>Cost per outsourced post</label>
+      <div class="input-wrap">
+        <span class="input-prefix">$</span>
+        <input type="number" id="f-post-cost" class="has-prefix" min="0" value="150" placeholder="e.g. 150">
+      </div>
+    </div>
+
+    <button class="calc-btn" id="calc-btn" onclick="run()">
+      <div class="spinner"></div>
+      <span class="btn-label">Calculate My ROI →</span>
+    </button>
+
+  </div><!-- /calc-card -->
+
+  <!-- RESULTS -->
+  <div class="results" id="results">
+
+    <!-- TEASER — always visible -->
+    <div class="res-hero">
+      <div class="eyebrow">Your estimated monthly savings with Buddees</div>
+      <div class="big-num" id="r-total">$0</div>
+      <div class="sub">per month — starting from day one</div>
+      <div class="meta-row">
+        <div class="meta-stat">
+          <div class="val" id="r-roi">— days</div>
+          <div class="lbl">Break-even point</div>
+        </div>
+        <div class="meta-stat">
+          <div class="val" id="r-annual">$0</div>
+          <div class="lbl">Net annual benefit</div>
+        </div>
+        <div class="meta-stat">
+          <div class="val" id="r-plan">—</div>
+          <div class="lbl">Recommended plan</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- LOCK PROMPT — sits right below teaser so visitor sees it immediately -->
+    <div class="lock-overlay" id="lock-overlay">
+      <div class="lock-text">🔒 Unlock your full savings breakdown</div>
+      <button class="unlock-btn" onclick="openModal()">Show me the numbers</button>
+    </div>
+
+    <!-- LOCKED BREAKDOWN -->
+    <div class="locked-wrap" id="locked-wrap">
+
+      <!-- breakdown cards -->
+      <div class="breakdown-grid blur-panel" id="bd-grid">
+        <div class="bc">
+          <div class="bc-icon" style="background:rgba(52,211,153,0.14)">📞</div>
+          <div class="bc-amount" id="r-calls" style="color:var(--green)">$0</div>
+          <div class="bc-name">Missed Call Recovery</div>
+          <div class="bc-note" id="r-calls-note">Tabby answers every call and books the job.</div>
+        </div>
+        <div class="bc">
+          <div class="bc-icon" style="background:rgba(0,102,255,0.14)">👥</div>
+          <div class="bc-amount" id="r-admin" style="color:#60A5FA">$0</div>
+          <div class="bc-name">Team Capacity Freed Up</div>
+          <div class="bc-note" id="r-admin-note">Your team gets time back to focus on growth — without needing to hire anyone new.</div>
+        </div>
+        <div class="bc">
+          <div class="bc-icon" style="background:rgba(255,180,0,0.14)">📣</div>
+          <div class="bc-amount" id="r-mkt" style="color:var(--amber)">$0</div>
+          <div class="bc-name">Marketing Cost Savings</div>
+          <div class="bc-note" id="r-mkt-note">Marco creates and runs your content so you don't have to.</div>
+        </div>
+        <div class="bc">
+          <div class="bc-icon" style="background:rgba(255,107,107,0.14)">💰</div>
+          <div class="bc-amount" id="r-inv" style="color:#FF6B6B">$0</div>
+          <div class="bc-name">Faster Invoice Collection</div>
+          <div class="bc-note" id="r-inv-note">Cassie invoices the moment a job closes — less chasing, faster cash.</div>
+        </div>
+      </div>
+
+      <!-- chart -->
+      <div class="chart-card blur-panel" id="bd-chart">
+        <h3>Monthly savings breakdown vs your investment</h3>
+        <div class="chart-wrap">
+          <canvas id="roi-chart"></canvas>
+        </div>
+      </div>
+
+      <!-- package recommendation -->
+      <div class="pkg-card blur-panel" id="bd-pkg">
+        <div>
+          <div class="pkg-badge">Recommended for you</div>
+          <div class="pkg-name" id="pkg-name">The Crew</div>
+          <div class="pkg-desc" id="pkg-desc">All 4 AI agents. Everything your business needs to start saving.</div>
+        </div>
+        <div>
+          <div class="pkg-price" id="pkg-price">$299<span style="font-size:16px;font-weight:500;color:var(--text-muted)">/mo</span></div>
+          <div class="pkg-price-sub">14-day free trial. Cancel anytime. No lock-in.</div>
+          <div id="pkg-annual-note" style="font-size:12px;color:#34d399;font-weight:600;margin-top:6px;"></div>
+        </div>
+        <a href="./index.html#pricing" class="pkg-cta">Start Your 14-Day Free Trial →</a>
+      </div>
+
+    </div><!-- /locked-wrap -->
+
+    <!-- METHODOLOGY — hidden until email unlock -->
+    <div id="methodology" style="display:none; margin-top:8px;">
+      <div class="calc-card">
+        <div class="section-label">How we calculated your numbers</div>
+        <div style="display:flex;flex-direction:column;gap:24px;font-size:14px;color:rgba(255,255,255,0.72);line-height:1.75;">
+
+          <div>
+            <div style="font-size:13px;font-weight:700;color:#34D399;margin-bottom:8px;">📞 Missed Call Recovery &mdash; <span id="m-calls-amt"></span></div>
+            <p id="m-calls-text"></p>
+          </div>
+
+          <div>
+            <div style="font-size:13px;font-weight:700;color:#60A5FA;margin-bottom:8px;">👥 Team Capacity Freed Up &mdash; <span id="m-admin-amt"></span></div>
+            <p id="m-admin-text"></p>
+          </div>
+
+          <div>
+            <div style="font-size:13px;font-weight:700;color:#FFB400;margin-bottom:8px;">📣 Marketing Savings &mdash; <span id="m-mkt-amt"></span></div>
+            <p id="m-mkt-text"></p>
+          </div>
+
+          <div>
+            <div style="font-size:13px;font-weight:700;color:#FF6B6B;margin-bottom:8px;">💰 Faster Invoice Collection &mdash; <span id="m-inv-amt"></span></div>
+            <p id="m-inv-text"></p>
+          </div>
+
+          <div style="background:rgba(255,255,255,0.04);border-radius:10px;padding:16px 20px;font-size:12px;color:rgba(255,255,255,0.44);line-height:1.7;">
+            These figures are estimates based on industry averages for HVAC, plumbing, and electrical businesses. Your actual results will vary depending on call handling quality, team adoption, and your local market. We kept every assumption conservative on purpose &mdash; most businesses we work with hit break-even in their first week.
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /results -->
+
+</div><!-- /container -->
+
+<!-- EMAIL MODAL -->
+<div class="modal-bg" id="modal-bg">
+  <div class="modal">
+    <div class="modal-icon">📊</div>
+    <h2>Your breakdown is ready</h2>
+    <p>Just share a few quick details and we'll unlock your full ROI breakdown. We'll also send you a copy with promo code <strong>BUDDY26</strong> to get started.</p>
+    <div class="modal-fields">
+      <input type="text"  id="m-name"     placeholder="Your full name"    autocomplete="name">
+      <input type="email" id="m-email"    placeholder="Work email address" autocomplete="email">
+      <input type="text"  id="m-business" placeholder="Business name"      autocomplete="organization">
+      <select id="m-country" onchange="handleROICountryChange()" style="width:100%;background:var(--bg-elevated);border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text);font-family:'DM Sans',sans-serif;font-size:16px;padding:14px 16px;outline:none;transition:border-color 0.2s;cursor:pointer;background-image:url('data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%2712%27 height=%277%27 viewBox=%270 0 12 7%27%3E%3Cpath d=%27M1 1l5 5 5-5%27 stroke=%27rgba(255,255,255,0.35)%27 stroke-width=%271.5%27 fill=%27none%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27/%3E%3C/svg%3E');background-repeat:no-repeat;background-position:right 14px center;padding-right:38px;-webkit-appearance:none;appearance:none;">
+        <option value="US">United States</option>
+        <option value="GB">United Kingdom</option>
+        <option value="IE">Ireland</option>
+        <option value="ZA">South Africa</option>
+        <option value="SG">Singapore</option>
+        <option value="AE">United Arab Emirates</option>
+        <option value="OTHER">Other</option>
+      </select>
+      <select id="m-state" style="width:100%;background:var(--bg-elevated);border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text);font-family:'DM Sans',sans-serif;font-size:16px;padding:14px 16px;outline:none;transition:border-color 0.2s;cursor:pointer;background-image:url('data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%2712%27 height=%277%27 viewBox=%270 0 12 7%27%3E%3Cpath d=%27M1 1l5 5 5-5%27 stroke=%27rgba(255,255,255,0.35)%27 stroke-width=%271.5%27 fill=%27none%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27/%3E%3C/svg%3E');background-repeat:no-repeat;background-position:right 14px center;padding-right:38px;-webkit-appearance:none;appearance:none;">
+        <option value="">Select your state</option>
+        <option>Alabama</option><option>Alaska</option><option>Arizona</option><option>Arkansas</option><option>California</option><option>Colorado</option><option>Connecticut</option><option>Delaware</option><option>Florida</option><option>Georgia</option><option>Hawaii</option><option>Idaho</option><option>Illinois</option><option>Indiana</option><option>Iowa</option><option>Kansas</option><option>Kentucky</option><option>Louisiana</option><option>Maine</option><option>Maryland</option><option>Massachusetts</option><option>Michigan</option><option>Minnesota</option><option>Mississippi</option><option>Missouri</option><option>Montana</option><option>Nebraska</option><option>Nevada</option><option>New Hampshire</option><option>New Jersey</option><option>New Mexico</option><option>New York</option><option>North Carolina</option><option>North Dakota</option><option>Ohio</option><option>Oklahoma</option><option>Oregon</option><option>Pennsylvania</option><option>Rhode Island</option><option>South Carolina</option><option>South Dakota</option><option>Tennessee</option><option>Texas</option><option>Utah</option><option>Vermont</option><option>Virginia</option><option>Washington</option><option>West Virginia</option><option>Wisconsin</option><option>Wyoming</option><option>Washington D.C.</option>
+      </select>
+      <input type="text" id="m-region" placeholder="County / Province / Region" style="display:none;width:100%;background:var(--bg-elevated);border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text);font-family:'DM Sans',sans-serif;font-size:16px;padding:14px 16px;outline:none;transition:border-color 0.2s;" autocomplete="address-level1">
+      <select id="m-trade" required style="width:100%;background:var(--bg-elevated);border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text);font-family:'DM Sans',sans-serif;font-size:16px;padding:14px 16px;outline:none;transition:border-color 0.2s;cursor:pointer;background-image:url('data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%2712%27 height=%277%27 viewBox=%270 0 12 7%27%3E%3Cpath d=%27M1 1l5 5 5-5%27 stroke=%27rgba(255,255,255,0.35)%27 stroke-width=%271.5%27 fill=%27none%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27/%3E%3C/svg%3E');background-repeat:no-repeat;background-position:right 14px center;padding-right:38px;-webkit-appearance:none;appearance:none;">
+        <option value="">Select your primary trade</option>
+        <option value="HVAC">HVAC</option>
+        <option value="Electrical">Electrical</option>
+        <option value="Plumbing">Plumbing</option>
+        <option value="Fit-Out">Fit-Out</option>
+      </select>
+      <button class="modal-submit" onclick="submitLead()">Unlock My Full Breakdown →</button>
+    </div>
+    <p class="modal-fine">No spam. No unsolicited sales calls. Just your numbers.</p>
+  </div>
+</div>
+
+<script>
+  /* ─── Country toggle for ROI modal ─── */
+  function handleROICountryChange() {
+    var country = document.getElementById('m-country').value;
+    var stateEl = document.getElementById('m-state');
+    var regionEl = document.getElementById('m-region');
+    if (country === 'US') {
+      stateEl.style.display = '';
+      regionEl.style.display = 'none';
+      regionEl.value = '';
+    } else {
+      stateEl.style.display = 'none';
+      stateEl.value = '';
+      regionEl.style.display = '';
+    }
+  }
+
+  /* ─── PAGE VIEW LOGGER ─── */
+  window.addEventListener('load', function() {
+    const ref = document.referrer.toLowerCase();
+    let source = 'Direct';
+    if (ref) {
+      if (/facebook|twitter|instagram|linkedin|tiktok|youtube|pinterest|x\.com/.test(ref)) {
+        source = 'Social';
+      } else {
+        source = 'Referral';
+      }
+    }
+    const _now = new Date();
+    fetch('/api/airtable.php?table=Page%20Views', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ fields: {
+        Date:      _now.toISOString().split('T')[0],
+        Hour:      _now.getHours(),
+        Source:    source,
+        Timestamp: _now.toISOString(),
+      }})
+    }).catch(() => {});
+  });
+
+  /* ─── STATE ─── */
+  let mktType = 'inhouse';
+  let chart   = null;
+  let results = null;
+  let roiRecordId = null;
+
+  /* ─── MARKETING TOGGLE ─── */
+  function setMkt(type) {
+    mktType = type;
+    document.getElementById('btn-inhouse').classList.toggle('active', type === 'inhouse');
+    document.getElementById('btn-out').classList.toggle('active',     type === 'outsourced');
+    document.getElementById('f-cost-wrap').classList.toggle('show',   type === 'outsourced');
+  }
+
+  /* ─── HELPERS ─── */
+  function val(id)  { return parseFloat(document.getElementById(id).value) || 0; }
+  function intVal(id) { return parseInt(document.getElementById(id).value)  || 0; }
+  function fmt(n)   { return '$' + Math.round(n).toLocaleString('en-US'); }
+  function fmtK(n)  {
+    if (n >= 1000) return '$' + (n / 1000).toFixed(1).replace(/\.0$/, '') + 'k';
+    return fmt(n);
+  }
+
+  function countUp(el, target, prefix, duration) {
+    prefix   = prefix   ?? '$';
+    duration = duration ?? 1200;
+    const t0 = performance.now();
+    function tick(now) {
+      const p = Math.min((now - t0) / duration, 1);
+      const e = 1 - Math.pow(1 - p, 3);
+      el.textContent = prefix + Math.round(target * e).toLocaleString('en-US');
+      if (p < 1) requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  }
+
+  /* ─── CALCULATION ENGINE ─── */
+  function compute() {
+    const staff       = Math.max(1, intVal('f-staff'));
+    const wage        = val('f-wage')  || 3500;
+    const callsDay    = Math.max(1, intVal('f-calls'));
+    const missedDay   = Math.min(intVal('f-missed'), callsDay);
+    const jobValue    = val('f-job')   || 350;
+    const postHrs     = val('f-post-time') || 1;
+    const postCost    = val('f-post-cost') || 0;
+
+    const workDays        = 22;
+    const conversionRate  = 0.60;  // 60% of answered calls become jobs
+    const tabbyCapture    = 0.50;  // Tabby recovers 50% of missed calls
+    const adminRelief     = 0.30;  // 30% of admin time freed up — redirected to higher-value work
+    const postsPerMonth   = 8;     // ~2 posts/week
+    const hourlyRate      = Math.max(20, Math.min(80, wage / 160));
+
+    // 1. Missed call recovery (Tabby)
+    const callSavings = missedDay * workDays * jobValue * conversionRate * tabbyCapture;
+
+    // 2. Admin labor (all 4 agents combined)
+    // Framed as opportunity value of time freed — not staff cost reduction.
+    // Your team handles 30% more without a new hire. Value = what that next hire would cost.
+    const hoursFreedPerMonth = staff * 160 * adminRelief;
+    const adminSavings = hoursFreedPerMonth * hourlyRate;
+
+    // 3. Marketing (Marco)
+    let mktSavings = 0;
+    if (mktType === 'outsourced' && postCost > 0) {
+      mktSavings = postCost * postsPerMonth * 0.80;
+    } else {
+      mktSavings = postHrs * postsPerMonth * hourlyRate * 0.75;
+    }
+
+    // 4. Invoicing efficiency (Cassie)
+    const monthlyRevenue = callsDay * workDays * jobValue * conversionRate;
+    const invSavings     = Math.min(monthlyRevenue * 0.04, 1400);
+
+    const totalSavings = callSavings + adminSavings + mktSavings + invSavings;
+    const pkgCost      = staff <= 3 ? 299 : 549;
+    const pkgName      = staff <= 3 ? 'The Crew' : 'A-Team';
+    const netBenefit   = totalSavings - pkgCost;
+    const roiDays      = Math.round(pkgCost / (totalSavings / 30));
+    const annualNet    = netBenefit * 12;
+
+    return {
+      callSavings, adminSavings, mktSavings, invSavings,
+      totalSavings, pkgCost, pkgName, netBenefit, roiDays, annualNet,
+      staff, wage, missedDay, jobValue, postHrs, postCost, monthlyRevenue,
+      callsDay, hourlyRate
+    };
+  }
+
+  /* ─── RUN CALCULATION ─── */
+  function run() {
+    const btn = document.getElementById('calc-btn');
+    btn.classList.add('loading');
+    setTimeout(() => {
+      results = compute();
+      populate(results);
+      logAnonymousCalc(results);
+      btn.classList.remove('loading');
+      const el = document.getElementById('results');
+      el.classList.add('show');
+      setTimeout(() => el.scrollIntoView({ behavior: 'smooth', block: 'start' }), 80);
+    }, 1500);
+  }
+
+  /* ─── POPULATE RESULTS ─── */
+  function populate(r) {
+    /* teaser (always visible) */
+    countUp(document.getElementById('r-total'), r.totalSavings);
+    document.getElementById('r-roi').textContent    = r.roiDays + ' days';
+    countUp(document.getElementById('r-annual'), r.annualNet);
+    document.getElementById('r-plan').textContent   = r.pkgName;
+
+    /* breakdown cards */
+    document.getElementById('r-calls').textContent = fmt(r.callSavings);
+    document.getElementById('r-calls-note').textContent =
+      `${r.missedDay} missed calls/day × $${r.jobValue} avg job × 60% book rate. Tabby captures 50% of those.`;
+
+    document.getElementById('r-admin').textContent = fmt(r.adminSavings);
+    const hoursFreed = Math.round(r.staff * 160 * 0.30);
+    document.getElementById('r-admin-note').textContent =
+      `~${hoursFreed} hours/month freed across your team. That's capacity you redirect to growth — without hiring anyone new.`;
+
+    document.getElementById('r-mkt').textContent = fmt(r.mktSavings);
+    document.getElementById('r-mkt-note').textContent =
+      mktType === 'outsourced'
+        ? `$${r.postCost}/post × 8 posts/mo. Marco replaces 80% of your outsourced content spend.`
+        : `${r.postHrs}hr/post × 8 posts/mo. Marco does the heavy lifting so you don't have to.`;
+
+    document.getElementById('r-inv').textContent = fmt(r.invSavings);
+    document.getElementById('r-inv-note').textContent =
+      `Based on your job volume. Faster invoicing = less cash sitting uncollected.`;
+
+    /* package rec */
+    document.getElementById('pkg-name').textContent = r.pkgName;
+    document.getElementById('pkg-price').innerHTML  =
+      `$${r.pkgCost}<span style="font-size:16px;font-weight:500;color:var(--text-muted)">/mo</span>`;
+    document.getElementById('pkg-desc').textContent = r.pkgName === 'The Crew'
+      ? 'All 4 AI agents included. Everything your business needs to start saving from day one.'
+      : 'Advanced features, priority scheduling, and voice capability for growing teams.';
+    document.getElementById('pkg-annual-note').textContent = 'Save even more with an annual commitment (billed monthly)';
+
+    /* chart */
+    buildChart(r);
+
+    /* methodology — pre-populate while still hidden */
+    populateMethodology(r);
+  }
+
+  /* ─── CHART ─── */
+  function buildChart(r) {
+    if (chart) chart.destroy();
+    const ctx = document.getElementById('roi-chart').getContext('2d');
+    chart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: ['Missed Calls', 'Team Capacity', 'Marketing', 'Invoicing', 'Your Investment'],
+        datasets: [{
+          data: [
+            Math.round(r.callSavings),
+            Math.round(r.adminSavings),
+            Math.round(r.mktSavings),
+            Math.round(r.invSavings),
+            -r.pkgCost
+          ],
+          backgroundColor: [
+            'rgba(52,211,153,0.75)',
+            'rgba(96,165,250,0.75)',
+            'rgba(255,180,0,0.75)',
+            'rgba(255,107,107,0.75)',
+            'rgba(255,59,48,0.5)',
+          ],
+          borderColor: ['#34D399','#60A5FA','#FFB400','#FF6B6B','#FF3B30'],
+          borderWidth: 1,
+          borderRadius: 7,
+        }]
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            callbacks: {
+              label: ctx => {
+                const v = ctx.raw;
+                return v < 0
+                  ? `  Monthly cost: $${Math.abs(v).toLocaleString()}`
+                  : `  Monthly savings: $${v.toLocaleString()}`;
+              }
+            },
+            backgroundColor: '#1A1A22',
+            titleColor: '#fff',
+            bodyColor: 'rgba(255,255,255,0.65)',
+            borderColor: 'rgba(255,255,255,0.08)',
+            borderWidth: 1, padding: 12,
+          }
+        },
+        scales: {
+          x: {
+            grid: { color: 'rgba(255,255,255,0.04)' },
+            ticks: { color: 'rgba(255,255,255,0.44)', font: { family: 'DM Sans', size: 12 } },
+            border: { color: 'rgba(255,255,255,0.06)' }
+          },
+          y: {
+            grid: { color: 'rgba(255,255,255,0.04)' },
+            ticks: {
+              color: 'rgba(255,255,255,0.44)',
+              font: { family: 'DM Sans', size: 12 },
+              callback: v => '$' + Math.abs(v).toLocaleString()
+            },
+            border: { color: 'rgba(255,255,255,0.06)' }
+          }
+        }
+      }
+    });
+  }
+
+  /* ─── MODAL ─── */
+  function openModal() {
+    document.getElementById('modal-bg').classList.add('open');
+    setTimeout(() => document.getElementById('m-name').focus(), 100);
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('modal-bg').addEventListener('click', function(e) {
+      if (e.target === this) this.classList.remove('open');
+    });
+  });
+
+  async function submitLead() {
+    const name     = document.getElementById('m-name').value.trim();
+    const email    = document.getElementById('m-email').value.trim();
+    const business = document.getElementById('m-business').value.trim();
+    const country  = document.getElementById('m-country').value || 'US';
+    const state    = country === 'US' ? document.getElementById('m-state').value : (document.getElementById('m-region').value || '');
+    const trade    = document.getElementById('m-trade').value;
+
+    if (!name || !email || !trade) {
+      document.getElementById('m-name').style.borderColor  = !name  ? 'var(--red)' : '';
+      document.getElementById('m-email').style.borderColor = !email ? 'var(--red)' : '';
+      document.getElementById('m-trade').style.borderColor = !trade ? 'var(--red)' : '';
+      return;
+    }
+
+    /* save lead to Airtable with full ROI data + source + location */
+    const r = results || {};
+    let _loc = '';
+    try { const _g = await fetch('https://ipapi.co/json/', { signal: AbortSignal.timeout(3000) }); const _d = await _g.json(); _loc = [_d.city, _d.region, _d.country_name].filter(Boolean).join(', '); } catch(e) {}
+    fetch('/api/airtable.php?table=Early%20Access', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ fields: {
+        Email: email, Name: name,
+        'Business Name': business,
+        State: state,
+        Country: country || 'US',
+        Trade: trade || '',
+        Agent: 'ROI Calculator',
+        Source: 'ROI Calculator',
+        Location: _loc || '',
+        'Lead Status': 'New',
+        Submitted: new Date().toISOString().split('T')[0],
+        'ROI Staff':        r.staff        || 0,
+        'ROI Wage':         r.wage         || 0,
+        'ROI Missed Calls': r.missedDay    || 0,
+        'ROI Job Value':    r.jobValue     || 0,
+        'ROI Calls Per Day': r.callsDay    || 0,
+        'ROI Total Savings': Math.round(r.totalSavings || 0),
+        'ROI Break Even':   r.roiDays      || 0,
+        'ROI Plan':         r.pkgName      || '',
+      }})
+    }).catch(() => {});
+
+    /* update ROI Analytics record with the name so we know who requested it */
+    if (roiRecordId) {
+      fetch(`/api/airtable.php?table=ROI%20Analytics&id=${roiRecordId}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ fields: { Name: name, Converted: true } })
+      }).catch(() => {});
+    }
+
+    /* close modal, unlock */
+    document.getElementById('modal-bg').classList.remove('open');
+    unlock();
+  }
+
+  /* ─── LOG ANONYMOUS CALCULATION ─── */
+  function logAnonymousCalc(r) {
+    fetch('/api/airtable.php?table=ROI%20Analytics', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ fields: {
+        Session:     'roi_' + Date.now() + '_' + Math.random().toString(36).substr(2, 6),
+        Staff:       r.staff,
+        Wage:        r.wage,
+        CallsPerDay: r.callsDay,
+        MissedPerDay: r.missedDay,
+        JobValue:    r.jobValue,
+        PostTime:    r.postHrs,
+        MktType:     mktType,
+        TotalSavings: Math.round(r.totalSavings),
+        Plan:        r.pkgName,
+        Converted:   false,
+        Timestamp:   new Date().toISOString(),
+      }})
+    }).then(r => r.json()).then(d => { if (d.id) roiRecordId = d.id; }).catch(() => {});
+  }
+
+  /* ─── METHODOLOGY COPY ─── */
+  function populateMethodology(r) {
+    const hr          = r.hourlyRate.toFixed(2);
+    const hoursFreed  = Math.round(r.staff * 160 * 0.30);
+    const postsPerMonth = 8;
+    const missedMonth = r.missedDay * 22;
+    const potentialRev = Math.round(missedMonth * r.jobValue * 0.6);
+
+    document.getElementById('m-calls-amt').textContent = fmt(r.callSavings);
+    document.getElementById('m-calls-text').textContent =
+      `Your ${r.missedDay} missed calls per day across 22 working days adds up to ${missedMonth} unanswered opportunities every month. At your $${r.jobValue} average job value with a 60% call-to-booking rate, that's $${potentialRev.toLocaleString('en-US')} in potential revenue going to voicemail. Tabby captures 50% of those through instant callbacks and text re-engagement — recovering ${fmt(r.callSavings)} for your business every month.`;
+
+    document.getElementById('m-admin-amt').textContent = fmt(r.adminSavings);
+    document.getElementById('m-admin-text').textContent =
+      `With ${r.staff} admin staff each putting in 160 hours per month, your team logs ${r.staff * 160} combined admin hours. Between Tabby handling inbound, Jack running dispatch and field ops, Marco managing your content, and Cassie keeping your invoicing tight — together they automate roughly 30% of that workload (${hoursFreed} hours/month). We value that freed-up time at $${hr}/hr (your monthly wage divided by 160 hours). That's ${hoursFreed} hours × $${hr} = ${fmt(r.adminSavings)} worth of capacity redirected to growth work every single month. Nobody loses their job. Your team just stops being buried in admin.`;
+
+    document.getElementById('m-mkt-amt').textContent = fmt(r.mktSavings);
+    if (mktType === 'outsourced') {
+      document.getElementById('m-mkt-text').textContent =
+        `You're currently spending $${r.postCost} per outsourced post across ${postsPerMonth} posts per month ($${r.postCost * postsPerMonth}/mo total). Marco handles your briefs, copy, and scheduling — replacing approximately 80% of that spend. That's $${r.postCost} × ${postsPerMonth} posts × 80% = ${fmt(r.mktSavings)} saved monthly.`;
+    } else {
+      document.getElementById('m-mkt-text').textContent =
+        `You spend ${r.postHrs} hour(s) per post creating content in-house. Across ${postsPerMonth} posts per month that's ${r.postHrs * postsPerMonth} hours of your team's time. Marco takes on the heavy lifting — research, copy direction, image briefs, scheduling — giving back roughly 75% of that effort. At your rate of $${hr}/hr, that's ${r.postHrs * postsPerMonth} hrs × $${hr} × 75% = ${fmt(r.mktSavings)} in recovered time value every month.`;
+    }
+
+    document.getElementById('m-inv-amt').textContent = fmt(r.invSavings);
+    const monthlyRev = Math.round(r.monthlyRevenue);
+    const rawInv = Math.round(monthlyRev * 0.04);
+    document.getElementById('m-inv-text').textContent =
+      `Based on your call volume, your estimated monthly revenue is around $${monthlyRev.toLocaleString('en-US')}. Businesses using automated invoicing — where every job triggers an instant invoice and Cassie follows up automatically until it's paid — typically improve cash collection by around 4% of monthly revenue. For your business that's $${rawInv.toLocaleString('en-US')}${rawInv > 1400 ? ', though we cap this figure at $1,400/month to stay conservative' : ''}. The difference isn't that you earn more — it's that money stops sitting uncollected after a job is done.`;
+  }
+
+  function unlock() {
+    ['bd-grid','bd-chart','bd-pkg'].forEach(id =>
+      document.getElementById(id).classList.add('unlocked')
+    );
+    document.getElementById('lock-overlay').style.display = 'none';
+    document.getElementById('methodology').style.display  = 'block';
+
+    /* animate numbers in now they're visible */
+    if (results) {
+      countUp(document.getElementById('r-calls'), results.callSavings);
+      countUp(document.getElementById('r-admin'), results.adminSavings);
+      countUp(document.getElementById('r-mkt'),   results.mktSavings);
+      countUp(document.getElementById('r-inv'),   results.invSavings);
+    }
+  }
+</script>
+
+</body>
+</html>

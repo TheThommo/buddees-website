@@ -1,0 +1,31 @@
+name: Deploy to GoDaddy
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Deploy via FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ftp.buddees.ai
+          username: ulqmr78oa7km
+          password: ${{ secrets.FTP_PASSWORD }}
+          server-dir: /public_html/
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/Platform/**
+            **/VAPI_Voice_Platform_Integration_Prompt.md
+            **/disclaimer.md
+            **/privacy.md
+            **/terms.md
+            **/trades_knowledgebase.html
+            **/trades_knowledgebase_files/**
+            **/.DS_Store

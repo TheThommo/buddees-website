@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Support — Buddees AI</title>
+  <meta name="description" content="Get help with your Buddees account. Contact our team, browse help articles, or email us directly.">
+  <link rel="icon" type="image/png" href="https://buddees.ai/logos/buddees-logo-draft-01.png">
+  <link rel="canonical" href="https://buddees.ai/support">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #07091A;
+      color: #fff;
+      min-height: 100vh;
+      line-height: 1.5;
+      overflow-x: hidden;
+    }
+
+    /* ─── NAV ─── */
+    .nav {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 18px 40px;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+      position: sticky; top: 0;
+      background: rgba(7,9,26,0.92);
+      backdrop-filter: blur(32px) saturate(180%);
+      -webkit-backdrop-filter: blur(32px) saturate(180%);
+      z-index: 100;
+    }
+    .nav-logo { height: 30px; }
+    .nav-links { display: flex; align-items: center; gap: 28px; }
+    .nav-link {
+      font-size: 13.5px; font-weight: 500;
+      color: rgba(255,255,255,0.52);
+      text-decoration: none; letter-spacing: -0.005em;
+      transition: color 0.2s;
+    }
+    .nav-link:hover { color: #fff; }
+    .nav-link.active { color: #fff; }
+    .nav-cta {
+      background: linear-gradient(135deg, #E53116, #164989);
+      color: #fff; font-size: 13px; font-weight: 700;
+      padding: 9px 22px; border-radius: 100px;
+      text-decoration: none; transition: opacity 0.2s;
+    }
+    .nav-cta:hover { opacity: 0.88; }
+
+    /* ─── HERO ─── */
+    .hero {
+      text-align: center;
+      padding: 80px 24px 48px;
+      max-width: 640px; margin: 0 auto;
+    }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(0,102,255,0.12);
+      border: 1px solid rgba(0,102,255,0.28);
+      color: #60A5FA; font-size: 11px; font-weight: 700;
+      padding: 6px 16px; border-radius: 100px;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      margin-bottom: 24px;
+    }
+    .hero h1 {
+      font-size: clamp(30px, 5vw, 46px);
+      font-weight: 900; letter-spacing: -0.03em; line-height: 1.1;
+      margin-bottom: 14px;
+    }
+    .hero p {
+      font-size: 17px; color: rgba(255,255,255,0.55);
+      max-width: 480px; margin: 0 auto; line-height: 1.7;
+    }
+
+    /* ─── QUICK CONTACT BAR ─── */
+    .contact-bar {
+      display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;
+      padding: 0 24px 56px;
+      max-width: 680px; margin: 0 auto;
+    }
+    .contact-card {
+      flex: 1; min-width: 200px; max-width: 300px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 16px; padding: 24px; text-align: center;
+      text-decoration: none; color: #fff;
+      transition: background 0.2s, border-color 0.2s;
+    }
+    .contact-card:hover {
+      background: rgba(255,255,255,0.07);
+      border-color: rgba(255,255,255,0.16);
+    }
+    .contact-icon {
+      width: 44px; height: 44px; border-radius: 12px;
+      background: rgba(0,102,255,0.12);
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 14px;
+    }
+    .contact-card h3 { font-size: 15px; font-weight: 700; margin-bottom: 4px; }
+    .contact-card p { font-size: 13px; color: rgba(255,255,255,0.45); line-height: 1.5; }
+
+    /* ─── HELP ARTICLES ─── */
+    .articles-section {
+      max-width: 820px; margin: 0 auto;
+      padding: 0 24px 80px;
+    }
+    .articles-header {
+      font-size: 12px; font-weight: 700; letter-spacing: 0.12em;
+      color: rgba(255,255,255,0.28); text-transform: uppercase;
+      margin-bottom: 28px; text-align: center;
+    }
+    .articles-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 16px;
+    }
+    .article-card {
+      background: rgba(255,255,255,0.035);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 16px; padding: 24px;
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s, transform 0.15s;
+    }
+    .article-card:hover {
+      background: rgba(255,255,255,0.06);
+      border-color: rgba(255,255,255,0.15);
+      transform: translateY(-2px);
+    }
+    .article-card.expanded {
+      grid-column: 1 / -1;
+      background: rgba(255,255,255,0.05);
+      border-color: rgba(0,102,255,0.3);
+      cursor: default;
+      transform: none;
+    }
+    .article-icon {
+      font-size: 22px; margin-bottom: 12px;
+    }
+    .article-card h3 {
+      font-size: 15px; font-weight: 700; margin-bottom: 6px;
+      color: #fff;
+    }
+    .article-card .preview {
+      font-size: 13px; color: rgba(255,255,255,0.4); line-height: 1.5;
+    }
+    .article-body {
+      margin-top: 16px; padding-top: 16px;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      font-size: 14px; color: rgba(255,255,255,0.65); line-height: 1.8;
+    }
+    .article-body strong { color: rgba(255,255,255,0.85); }
+    .article-body ul {
+      margin: 10px 0 10px 20px;
+      list-style: disc;
+    }
+    .article-body li { margin-bottom: 6px; }
+    .article-close {
+      display: inline-flex; align-items: center; gap: 6px;
+      margin-top: 16px; font-size: 13px; font-weight: 600;
+      color: #60A5FA; cursor: pointer; background: none;
+      border: none; padding: 0;
+    }
+    .article-close:hover { color: #93C5FD; }
+
+    /* ─── CONTACT FORM ─── */
+    .form-section {
+      max-width: 560px; margin: 0 auto;
+      padding: 0 24px 80px;
+    }
+    .form-card {
+      background: rgba(255,255,255,0.035);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 20px; padding: 32px;
+    }
+    .form-card h2 {
+      font-size: 20px; font-weight: 800; margin-bottom: 6px;
+    }
+    .form-card .subtitle {
+      font-size: 14px; color: rgba(255,255,255,0.45);
+      margin-bottom: 24px; line-height: 1.6;
+    }
+    .form-group { margin-bottom: 14px; }
+    .form-label {
+      display: block; font-size: 12px; font-weight: 600;
+      color: rgba(255,255,255,0.5); margin-bottom: 6px;
+    }
+    .form-input {
+      width: 100%; padding: 11px 16px; font-size: 14px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 12px; color: #fff; outline: none;
+      font-family: 'Inter', sans-serif;
+      transition: border-color 0.2s;
+    }
+    .form-input:focus { border-color: rgba(0,102,255,0.5); }
+    .form-input::placeholder { color: rgba(255,255,255,0.3); }
+    textarea.form-input { min-height: 120px; resize: vertical; }
+    select.form-input {
+      cursor: pointer;
+      -webkit-appearance: none; appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='7' viewBox='0 0 12 7'%3E%3Cpath d='M1 1l5 5 5-5' stroke='rgba(255,255,255,0.35)' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 14px center;
+      padding-right: 38px;
+    }
+    .form-input.error { border-color: rgba(255,59,48,0.5); }
+    .form-error {
+      font-size: 12px; color: #FF6B60; margin-top: 6px;
+      display: none;
+    }
+    .form-error.show { display: block; }
+    .form-submit {
+      width: 100%; padding: 13px 20px; margin-top: 6px;
+      background: linear-gradient(135deg, #FF3B30, #0066FF);
+      border: none; border-radius: 12px;
+      font-size: 14px; font-weight: 700; color: #fff;
+      cursor: pointer; font-family: 'Inter', sans-serif;
+      transition: opacity 0.2s;
+    }
+    .form-submit:hover { opacity: 0.9; }
+    .form-submit:disabled { opacity: 0.5; cursor: not-allowed; }
+    .form-success {
+      padding: 14px 18px; border-radius: 12px;
+      background: rgba(0,200,100,0.1);
+      border: 1px solid rgba(0,200,100,0.25);
+      font-size: 14px; color: #4DE88C; line-height: 1.6;
+      display: none;
+    }
+    .form-success.show { display: block; }
+
+    /* ─── FOOTER ─── */
+    .footer {
+      border-top: 1px solid rgba(255,255,255,0.06);
+      padding: 32px 24px;
+      text-align: center;
+    }
+    .footer-inner {
+      max-width: 680px; margin: 0 auto;
+      display: flex; flex-wrap: wrap; justify-content: space-between;
+      align-items: center; gap: 12px;
+      font-size: 13px; color: rgba(255,255,255,0.22);
+    }
+    .footer-links { display: flex; gap: 24px; }
+    .footer-links a {
+      color: rgba(255,255,255,0.22);
+      text-decoration: none; transition: color 0.2s;
+    }
+    .footer-links a:hover { color: rgba(255,255,255,0.5); }
+
+    /* ─── MOBILE ─── */
+    @media (max-width: 768px) {
+      .nav { padding: 16px 20px; }
+      .nav-links { gap: 16px; }
+      .nav-link { font-size: 12px; }
+      .nav-cta { padding: 8px 16px; font-size: 12px; }
+      .hero { padding: 60px 20px 36px; }
+      .hero h1 { font-size: 28px; }
+      .contact-bar { flex-direction: column; align-items: center; padding-bottom: 40px; }
+      .contact-card { max-width: 100%; }
+      .articles-grid { grid-template-columns: 1fr; }
+      .form-card { padding: 24px 20px; }
+      section, .articles-section, .form-section { padding-left: 16px; padding-right: 16px; }
+      .footer-inner { flex-direction: column; text-align: center; }
+      input, textarea, select { font-size: 16px !important; }
+    }
+
+    @media (max-width: 480px) {
+      .nav-links .nav-link { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ─── NAV ─── -->
+  <nav class="nav">
+    <a href="/">
+      <img src="./logos/buddees-logo-02.png" alt="Buddees" class="nav-logo">
+    </a>
+    <div class="nav-links">
+      <a href="/" class="nav-link">Home</a>
+      <a href="/roi.html" class="nav-link">ROI Calculator</a>
+      <a href="/support.html" class="nav-link active">Support</a>
+      <a href="https://app.buddees.app/auth/register" class="nav-cta">Start Free Trial</a>
+    </div>
+  </nav>
+
+  <!-- ─── HERO ─── -->
+  <div class="hero">
+    <div class="hero-badge">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      Support
+    </div>
+    <h1>How can we help?</h1>
+    <p>Browse our help articles below, send us a message, or email Tabby directly. We typically respond within a few hours.</p>
+  </div>
+
+  <!-- ─── QUICK CONTACT BAR ─── -->
+  <div class="contact-bar">
+    <a href="mailto:tabby@buddees.ai" class="contact-card">
+      <div class="contact-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#60A5FA" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+          <polyline points="22,6 12,13 2,6"/>
+        </svg>
+      </div>
+      <h3>Email Tabby</h3>
+      <p>tabby@buddees.ai</p>
+    </a>
+    <a href="#contact-form" class="contact-card" onclick="event.preventDefault(); document.getElementById('contact-form').scrollIntoView({behavior:'smooth'});">
+      <div class="contact-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#60A5FA" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+        </svg>
+      </div>
+      <h3>Send a Message</h3>
+      <p>We'll get back to you fast</p>
+    </a>
+    <a href="https://app.buddees.app/auth/register" class="contact-card">
+      <div class="contact-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#60A5FA" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/>
+        </svg>
+      </div>
+      <h3>Create Account</h3>
+      <p>Start your 14-day free trial</p>
+    </a>
+  </div>
+
+  <!-- ─── HELP ARTICLES ─── -->
+  <div class="articles-section">
+    <div class="articles-header">Help Articles</div>
+    <div class="articles-grid" id="articles-grid">
+
+      <!-- Article 1 -->
+      <div class="article-card" onclick="toggleArticle(this)">
+        <div class="article-icon">&#128640;</div>
+        <h3>Getting Started</h3>
+        <p class="preview">Your first 15 minutes with Buddees.</p>
+        <div class="article-body">
+          <p><strong>Welcome aboard.</strong> Here's how to get up and running:</p>
+          <ul>
+            <li><strong>Create your account</strong> using the link in your welcome email (or go to <a href="https://app.buddees.app/auth/register" style="color:#60A5FA">app.buddees.app</a>). Takes about 2 minutes.</li>
+            <li><strong>Tell us about your business</strong> during onboarding. Your trade, team size, and how you operate. This is how we configure Tabby, Jack, Marco, and Cassie to actually know your business.</li>
+            <li><strong>Load your Knowledgebase.</strong> Add your rates, service areas, team members, and any processes you want the agents to follow. The more you give them, the smarter they get.</li>
+            <li><strong>Start using your agents.</strong> Tabby handles reception and scheduling. Jack dispatches your techs. Marco looks after marketing and customer engagement. Cassie manages quoting and invoicing.</li>
+          </ul>
+          <p>Your 14-day free trial includes every feature and all four agents. No card charged until you say go.</p>
+          <button class="article-close" onclick="event.stopPropagation(); collapseArticle(this);">Close</button>
+        </div>
+      </div>
+
+      <!-- Article 2 -->
+      <div class="article-card" onclick="toggleArticle(this)">
+        <div class="article-icon">&#128176;</div>
+        <h3>How Billing Works</h3>
+        <p class="preview">Plans, trials, and what you're paying for.</p>
+        <div class="article-body">
+          <p><strong>14-day free trial.</strong> Every new account starts with a full-feature trial. All four agents, every capability, no restrictions. You won't be charged during the trial.</p>
+          <p><strong>After your trial:</strong> Pick the plan that matches your team size. Every plan includes all four agents and all features. The only difference between plans is the number of user logins and volume capacity.</p>
+          <ul>
+            <li><strong>Sole Trader</strong> (1 login) from $149/month</li>
+            <li><strong>A-Team</strong> (up to 5 logins) from $349/month</li>
+            <li><strong>The Firm</strong> (custom) for larger operations</li>
+          </ul>
+          <p>Annual commitment saves roughly 10%. All prices in USD. International customers are billed in USD and your bank may apply FX conversion fees.</p>
+          <p>You can upgrade, downgrade, or cancel at any time from your account settings. No lock-in contracts on monthly plans.</p>
+          <button class="article-close" onclick="event.stopPropagation(); collapseArticle(this);">Close</button>
+        </div>
+      </div>
+
+      <!-- Article 3 -->
+      <div class="article-card" onclick="toggleArticle(this)">
+        <div class="article-icon">&#129302;</div>
+        <h3>Meet Your Agents</h3>
+        <p class="preview">What each agent does and how they work together.</p>
+        <div class="article-body">
+          <p>You get a team of four AI agents. They coordinate like real colleagues.</p>
+          <ul>
+            <li><strong>Tabby</strong> (Reception &amp; Scheduling) is the first point of contact your customers have. She captures every lead, books appointments, sends confirmations, and builds your CRM organically from every interaction.</li>
+            <li><strong>Jack</strong> (Operations &amp; Dispatch) gets your techs to the right jobs. Right certification, right location, right time. He manages schedules, handles rescheduling, and flags conflicts before they become problems.</li>
+            <li><strong>Marco</strong> (Marketing &amp; Customer Engagement) fills your calendar before slow weeks hit. He requests reviews after jobs, nurtures leads, tracks service agreement renewals, and runs seasonal campaigns.</li>
+            <li><strong>Cassie</strong> (Finance &amp; Admin) handles quotes, invoices, and payment follow-ups. Itemized quotes go out fast, invoices go out the day a job wraps, and nothing gets ignored.</li>
+          </ul>
+          <p>A lead captured by Tabby triggers Jack's scheduling and Cassie's quoting automatically. Every handoff between agents is tracked and logged.</p>
+          <button class="article-close" onclick="event.stopPropagation(); collapseArticle(this);">Close</button>
+        </div>
+      </div>
+
+      <!-- Article 4 -->
+      <div class="article-card" onclick="toggleArticle(this)">
+        <div class="article-icon">&#128218;</div>
+        <h3>Managing Your Knowledgebase</h3>
+        <p class="preview">How to teach your agents about your business.</p>
+        <div class="article-body">
+          <p><strong>The Knowledgebase is what makes your agents yours.</strong> It's a three-tier system:</p>
+          <ul>
+            <li><strong>Industry Knowledge</strong> (built-in): Trade-specific knowledge for your industry. Compliance rules, common service types, typical pricing structures. This is loaded automatically based on your trade.</li>
+            <li><strong>Company Knowledge</strong> (you add this): Your rates, service areas, team members, operating hours, processes, terms. This is what turns a generic AI agent into one that sounds like it works for you.</li>
+            <li><strong>Customer Knowledge</strong> (built over time): Your agents learn from every interaction. Customer preferences, property details, service history. This gets richer the longer you use the platform.</li>
+          </ul>
+          <p>The most specific knowledge always wins. If a customer has a special rate, that overrides your company default, which overrides the industry baseline.</p>
+          <p>You can add, edit, and remove knowledge entries at any time from the Knowledgebase section of your console.</p>
+          <button class="article-close" onclick="event.stopPropagation(); collapseArticle(this);">Close</button>
+        </div>
+      </div>
+
+      <!-- Article 5 -->
+      <div class="article-card" onclick="toggleArticle(this)">
+        <div class="article-icon">&#128197;</div>
+        <h3>How Scheduling Works</h3>
+        <p class="preview">Appointments, dispatch, and calendar management.</p>
+        <div class="article-body">
+          <p><strong>Tabby captures the booking. Jack assigns the tech.</strong> Here's the full flow:</p>
+          <ul>
+            <li>A customer contacts you (call, chat, email, or form). Tabby captures the details and identifies whether it's an emergency, a standard booking, or a quote request.</li>
+            <li>Tabby creates the job and checks your team's availability. If it's straightforward, she books it directly and sends the customer a confirmation.</li>
+            <li>Jack takes over for dispatch. He matches the job to the right technician based on certification, location, and current schedule. He handles rescheduling and flags conflicts.</li>
+            <li>The customer gets automatic reminders before the appointment. Your tech gets all the job details, customer history, and any special notes.</li>
+          </ul>
+          <p>If something needs to change, your agents handle the rebooking and notify everyone involved. You don't have to chase anyone.</p>
+          <button class="article-close" onclick="event.stopPropagation(); collapseArticle(this);">Close</button>
+        </div>
+      </div>
+
+      <!-- Article 6 -->
+      <div class="article-card" onclick="toggleArticle(this)">
+        <div class="article-icon">&#128274;</div>
+        <h3>Account &amp; Security</h3>
+        <p class="preview">Passwords, access, and keeping your data safe.</p>
+        <div class="article-body">
+          <p><strong>Your data is yours.</strong> Here's how we keep it safe:</p>
+          <ul>
+            <li><strong>Secure login:</strong> Your account is protected by email and password authentication. We recommend using a strong, unique password.</li>
+            <li><strong>Tenant isolation:</strong> Every business on Buddees has its own isolated workspace. Your data is never shared with or visible to other businesses.</li>
+            <li><strong>Subdomain access:</strong> Your workspace lives at <em>yourcompany</em>.buddees.app. Only users you invite can access it.</li>
+            <li><strong>Data hosting:</strong> All data is stored securely on infrastructure hosted in the US and EU regions.</li>
+          </ul>
+          <p>If you need to reset your password, use the "Forgot password" link on your login page. If you're locked out, email <a href="mailto:tabby@buddees.ai" style="color:#60A5FA">tabby@buddees.ai</a> and we'll help you get back in.</p>
+          <button class="article-close" onclick="event.stopPropagation(); collapseArticle(this);">Close</button>
+        </div>
+      </div>
+
+      <!-- Article 7 -->
+      <div class="article-card" onclick="toggleArticle(this)">
+        <div class="article-icon">&#10060;</div>
+        <h3>Cancelling Your Account</h3>
+        <p class="preview">How to cancel and what happens to your data.</p>
+        <div class="article-body">
+          <p><strong>No lock-in. Cancel anytime.</strong></p>
+          <ul>
+            <li>You can cancel your subscription from your account settings. Monthly plans cancel at the end of the current billing cycle. Annual plans cancel at the end of the annual term.</li>
+            <li>After cancellation, your workspace stays accessible in read-only mode for 30 days so you can export any data you need.</li>
+            <li>After 30 days, your workspace and all associated data are permanently deleted.</li>
+            <li>If you're on a free trial and decide not to continue, you don't need to do anything. The trial simply expires and you're never charged.</li>
+          </ul>
+          <p>If you're thinking about cancelling because something isn't working, reach out to us first. We'd rather fix the problem than lose you.</p>
+          <button class="article-close" onclick="event.stopPropagation(); collapseArticle(this);">Close</button>
+        </div>
+      </div>
+
+      <!-- Article 8 -->
+      <div class="article-card" onclick="toggleArticle(this)">
+        <div class="article-icon">&#127758;</div>
+        <h3>Supported Countries</h3>
+        <p class="preview">Where Buddees is available and what's coming.</p>
+        <div class="article-body">
+          <p><strong>Buddees is live in six markets:</strong></p>
+          <ul>
+            <li>United States</li>
+            <li>United Kingdom</li>
+            <li>Ireland</li>
+            <li>South Africa</li>
+            <li>Singapore</li>
+            <li>United Arab Emirates</li>
+          </ul>
+          <p>Local phone number provisioning is available in the US today. Other regions are coming soon. All billing is in USD regardless of your location.</p>
+          <p>If you're in a country not listed here, select "Other" during sign-up and we'll be in touch about availability in your region.</p>
+          <button class="article-close" onclick="event.stopPropagation(); collapseArticle(this);">Close</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ─── CONTACT FORM ─── -->
+  <div class="form-section" id="contact-form">
+    <div class="form-card">
+      <h2>Send us a message</h2>
+      <p class="subtitle">Tell us what's going on and we'll get back to you as fast as we can. Usually within a few hours.</p>
+
+      <div id="support-form-success" class="form-success">
+        Got it! Your message has been sent. We'll get back to you shortly at the email address you provided.
+      </div>
+
+      <form id="support-form" onsubmit="return handleSupportSubmit(event)">
+        <div class="form-group">
+          <label class="form-label">Your name *</label>
+          <input type="text" id="sf-name" class="form-input" placeholder="e.g. Sarah Johnson" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Email address *</label>
+          <input type="email" id="sf-email" class="form-input" placeholder="sarah@company.com" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Company name</label>
+          <input type="text" id="sf-company" class="form-input" placeholder="Your business name">
+        </div>
+        <div class="form-group">
+          <label class="form-label">What's this about? *</label>
+          <select id="sf-category" class="form-input" required>
+            <option value="">Select a category</option>
+            <option value="Account & Login">Account &amp; Login</option>
+            <option value="Billing & Payments">Billing &amp; Payments</option>
+            <option value="Technical Issue">Technical Issue</option>
+            <option value="Feature Request">Feature Request</option>
+            <option value="General Question">General Question</option>
+            <option value="Cancel Account">Cancel Account</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Your message *</label>
+          <textarea id="sf-message" class="form-input" placeholder="Describe what's happening, what you expected, and any error messages you're seeing." required></textarea>
+        </div>
+        <div id="sf-error" class="form-error">Please fill in all required fields.</div>
+        <button type="submit" class="form-submit" id="sf-submit">Send Message</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ─── FOOTER ─── -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <span>&copy; 2026 Buddees AI. All rights reserved.</span>
+      <div class="footer-links">
+        <a href="/">Home</a>
+        <a href="/roi.html">ROI Calculator</a>
+        <a href="mailto:tabby@buddees.ai">tabby@buddees.ai</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ─── SCRIPTS ─── -->
+  <script>
+    /* ── Article expand/collapse ── */
+    function toggleArticle(card) {
+      if (card.classList.contains('expanded')) return;
+      // Collapse any already-expanded card
+      document.querySelectorAll('.article-card.expanded').forEach(c => {
+        c.classList.remove('expanded');
+        c.querySelector('.article-body').style.display = 'none';
+      });
+      card.classList.add('expanded');
+      card.querySelector('.article-body').style.display = 'block';
+      setTimeout(() => card.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 80);
+    }
+
+    function collapseArticle(btn) {
+      const card = btn.closest('.article-card');
+      card.classList.remove('expanded');
+      card.querySelector('.article-body').style.display = 'none';
+    }
+
+    // Hide all article bodies on load
+    document.querySelectorAll('.article-body').forEach(b => b.style.display = 'none');
+
+    /* ── Support form submission ── */
+    async function handleSupportSubmit(e) {
+      e.preventDefault();
+
+      const name     = document.getElementById('sf-name').value.trim();
+      const email    = document.getElementById('sf-email').value.trim();
+      const company  = document.getElementById('sf-company').value.trim();
+      const category = document.getElementById('sf-category').value;
+      const message  = document.getElementById('sf-message').value.trim();
+      const errorEl  = document.getElementById('sf-error');
+      const submitBtn = document.getElementById('sf-submit');
+
+      // Validate
+      if (!name || !email || !category || !message) {
+        errorEl.classList.add('show');
+        return false;
+      }
+      errorEl.classList.remove('show');
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Sending...';
+
+      try {
+        // Send to PHP endpoint (Airtable + email notification)
+        await fetch('/api/send-support-request.php', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name, email, company, category, message }),
+        });
+      } catch (err) {
+        console.error('[Buddees] Support form error:', err);
+      }
+
+      // Always show success (even if backend hiccups, the user shouldn't feel stuck)
+      document.getElementById('support-form').style.display = 'none';
+      document.getElementById('support-form-success').classList.add('show');
+      return false;
+    }
+
+    /* ── Auto-open article if URL hash matches ── */
+    (function() {
+      const hash = window.location.hash.replace('#', '').toLowerCase();
+      if (!hash) return;
+      const map = {
+        'getting-started': 0,
+        'billing': 1,
+        'agents': 2,
+        'knowledgebase': 3,
+        'scheduling': 4,
+        'security': 5,
+        'cancel': 6,
+        'countries': 7,
+      };
+      const idx = map[hash];
+      if (idx !== undefined) {
+        const cards = document.querySelectorAll('.article-card');
+        if (cards[idx]) {
+          setTimeout(() => {
+            toggleArticle(cards[idx]);
+            cards[idx].scrollIntoView({ behavior: 'smooth', block: 'center' });
+          }, 300);
+        }
+      }
+    })();
+  </script>
+</body>
+</html>
