@@ -15,7 +15,7 @@ jobs:
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
           server: ftp.buddees.ai
-          username: ulqmr78oa7km
+          username: deploy@buddees.ai
           password: ${{ secrets.FTP_PASSWORD }}
           server-dir: /public_html/
           exclude: |
