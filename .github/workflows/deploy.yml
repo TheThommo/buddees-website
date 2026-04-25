@@ -17,7 +17,7 @@ jobs:
           server: 107.180.115.83
           username: deploy@buddees.ai
           password: ${{ secrets.FTP_PASSWORD }}
-          server-dir: /public_html/
+          server-dir: /
           exclude: |
             **/.git*
             **/.git*/**
