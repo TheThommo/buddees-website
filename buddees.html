@@ -185,7 +185,7 @@
     /* ── FEATURE CARDS ── */
     .feature-card {
       border-radius: 12px;
-      padding: 28px 24px;
+      padding: 24px 20px;
       background: rgba(255, 255, 255, 0.035);
       border: 1px solid rgba(255, 255, 255, 0.08);
       backdrop-filter: blur(20px);
@@ -204,7 +204,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      margin-bottom: 18px;
+      margin-bottom: 14px;
       flex-shrink: 0;
     }
     .fc-title {
@@ -286,7 +286,7 @@
       .lab-agent-btn { flex-shrink: 0; min-width: 110px; }
 
       /* Lab section: reduce padding so panel sits high enough on screen */
-      #lab { padding: 60px 16px 40px !important; }
+      #lab { padding: 52px 16px 36px !important; }
 
       /* Chat panel — dvh tracks the visual viewport including keyboard changes */
       .lab-chat-panel {
@@ -326,18 +326,18 @@
       }
 
       /* Section top/bottom padding overrides — inline React styles need !important */
-      #lab          { padding-top: 60px !important; padding-bottom: 60px !important; }
-      #story        { padding-top: 60px !important; padding-bottom: 60px !important; }
-      #agents       { padding-top: 60px !important; padding-bottom: 60px !important; }
-      #knowledgebase{ padding-top: 60px !important; padding-bottom: 60px !important; }
-      #how          { padding-top: 60px !important; padding-bottom: 60px !important; }
-      #features     { padding-top: 60px !important; padding-bottom: 60px !important; }
+      #lab          { padding-top: 52px !important; padding-bottom: 52px !important; }
+      #story        { padding-top: 52px !important; padding-bottom: 52px !important; }
+      #agents       { padding-top: 52px !important; padding-bottom: 52px !important; }
+      #knowledgebase{ padding-top: 52px !important; padding-bottom: 52px !important; }
+      #how          { padding-top: 52px !important; padding-bottom: 52px !important; }
+      #features     { padding-top: 52px !important; padding-bottom: 52px !important; }
       #features .max-w-6xl > div:last-child { grid-template-columns: repeat(2, 1fr) !important; }
-      #pricing      { padding-top: 60px !important; padding-bottom: 60px !important; }
-      footer        { padding-top: 48px !important; padding-bottom: 32px !important; }
+      #pricing      { padding-top: 52px !important; padding-bottom: 52px !important; }
+      footer        { padding-top: 40px !important; padding-bottom: 28px !important; }
 
       /* Hero uses Tailwind pt-24 pb-56 — override via class */
-      .hero-section  { padding-top: 96px !important; padding-bottom: 80px !important; }
+      .hero-section  { padding-top: 88px !important; padding-bottom: 64px !important; }
 
       /* Prevent iOS Safari from zooming on input focus (font-size must be ≥ 16px) */
       .chat-input { font-size: 16px !important; }
@@ -1114,8 +1114,8 @@ ${invoiceTiers}
       }, []);
 
       const navLinks = [
-        { href: '#story',    label: 'Our Story' },
         { href: '#agents',   label: 'The Team' },
+        { href: '#story',    label: 'Our Story' },
         { href: '#knowledgebase', label: 'Brain' },
         { href: '#how',      label: 'How It Works' },
         { href: '#pricing',  label: 'Pricing' },
@@ -1218,7 +1218,7 @@ ${invoiceTiers}
     ───────────────────────────────────────────── */
     function Hero() {
       return (
-        <section className="relative min-h-screen flex items-center justify-center hero-bg bg-grid overflow-hidden pt-24 pb-56 hero-section">
+        <section className="relative min-h-screen flex items-center justify-center hero-bg bg-grid overflow-hidden pt-24 pb-40 hero-section">
 
           {/* Ambient glows */}
           <div className="glow-blob" style={{ width: 700, height: 700, background: '#0066FF', opacity: 0.12, top: -200, left: -150 }} />
@@ -1227,7 +1227,7 @@ ${invoiceTiers}
           <div className="relative z-10 max-w-5xl mx-auto px-6 text-center">
 
             {/* Badge */}
-            <div className="inline-flex items-center gap-2 glass rounded-full px-4 py-2 mb-10" style={{ fontSize: 13, color: 'rgba(255,255,255,0.55)' }}>
+            <div className="inline-flex items-center gap-2 glass rounded-full px-4 py-2 mb-8" style={{ fontSize: 13, color: 'rgba(255,255,255,0.55)' }}>
               <span style={{ width: 7, height: 7, borderRadius: '50%', background: '#34D399', display: 'inline-block', animation: 'dotBounce 2s infinite' }} />
               14-day free trial — now open for tradespeople
             </div>
@@ -1238,12 +1238,12 @@ ${invoiceTiers}
               <span className="gradient-text">everything alone.</span>
             </h1>
 
-            <p style={{ fontSize: 'clamp(17px, 2.5vw, 21px)', color: 'rgba(255,255,255,0.55)', maxWidth: 580, margin: '0 auto 40px', lineHeight: 1.65 }}>
+            <p style={{ fontSize: 'clamp(17px, 2.5vw, 21px)', color: 'rgba(255,255,255,0.55)', maxWidth: 580, margin: '0 auto 32px', lineHeight: 1.65 }}>
               Buddees gives you four AI agents who handle your marketing, invoicing, scheduling, and reception. Try them free for 14 days. No charge until you say go.
             </p>
 
             {/* CTAs */}
-            <div className="hero-ctas" style={{ display: 'flex', flexWrap: 'wrap', gap: 14, justifyContent: 'center', marginBottom: 80 }}>
+            <div className="hero-ctas" style={{ display: 'flex', flexWrap: 'wrap', gap: 14, justifyContent: 'center', marginBottom: 56 }}>
               <a
                 href="#pricing"
                 style={{
@@ -1306,9 +1306,9 @@ ${invoiceTiers}
     function BrandStory() {
       useScrollReveal();
       return (
-        <section id="story" style={{ padding: '120px 24px' }}>
+        <section id="story" style={{ padding: '100px 24px' }}>
           <div className="max-w-5xl mx-auto">
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 64, alignItems: 'center' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 52, alignItems: 'center' }}>
 
               <div className="fade-in-up">
                 <div style={{ fontSize: 12, fontWeight: 700, letterSpacing: '0.12em', color: 'rgba(255,255,255,0.28)', textTransform: 'uppercase', marginBottom: 16 }}>
@@ -1335,7 +1335,7 @@ ${invoiceTiers}
                   ['Admin piling up', 'Everything handled automatically'],
                   ['Doing a job', 'Running a business'],
                 ].map(([from, to], i) => (
-                  <div key={i} className="glass" style={{ borderRadius: 20, padding: '18px 22px', display: 'flex', alignItems: 'center', gap: 16 }}>
+                  <div key={i} className="glass" style={{ borderRadius: 20, padding: '14px 18px', display: 'flex', alignItems: 'center', gap: 14 }}>
                     <div style={{ flex: 1 }}>
                       <div style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', color: 'rgba(255,255,255,0.25)', marginBottom: 4 }}>Before</div>
                       <div style={{ fontSize: 14, color: 'rgba(255,255,255,0.38)', textDecoration: 'line-through' }}>{from}</div>
@@ -1360,11 +1360,11 @@ ${invoiceTiers}
     ───────────────────────────────────────────── */
     function AgentGallery({ onSelect, selectedId }) {
       return (
-        <section id="agents" style={{ padding: '100px 24px', background: 'rgba(255,255,255,0.015)' }}>
+        <section id="agents" style={{ padding: '85px 24px', background: 'rgba(255,255,255,0.015)' }}>
           <div className="max-w-6xl mx-auto">
 
-            <div className="fade-in-up" style={{ textAlign: 'center', marginBottom: 64 }}>
-              <div style={{ fontSize: 12, fontWeight: 700, letterSpacing: '0.12em', color: 'rgba(255,255,255,0.28)', textTransform: 'uppercase', marginBottom: 16 }}>The Team</div>
+            <div className="fade-in-up" style={{ textAlign: 'center', marginBottom: 52 }}>
+              <div style={{ fontSize: 12, fontWeight: 700, letterSpacing: '0.12em', color: 'rgba(255,255,255,0.28)', textTransform: 'uppercase', marginBottom: 14 }}>The Team</div>
               <h2 style={{ fontSize: 'clamp(32px, 5vw, 50px)', fontWeight: 900, marginBottom: 14, letterSpacing: '-0.02em' }}>Your four Buddees.</h2>
               <p style={{ color: 'rgba(255,255,255,0.45)', fontSize: 18, maxWidth: 520, margin: '0 auto' }}>
                 Each one handles a specific part of your business. Together, they've got you covered.
@@ -1381,7 +1381,7 @@ ${invoiceTiers}
                     onClick={() => onSelect(agent)}
                     style={{
                       borderRadius: 28,
-                      padding: '32px 24px',
+                      padding: '26px 22px',
                       borderColor: isSelected ? agent.color : 'rgba(255,255,255,0.08)',
                       background: isSelected ? agent.colorAlpha : 'rgba(255,255,255,0.04)',
                       boxShadow: isSelected ? `0 0 0 1.5px ${agent.color}, 0 12px 40px rgba(0,0,0,0.35)` : 'none',
@@ -1389,8 +1389,8 @@ ${invoiceTiers}
                     }}
                   >
                     {/* Avatar */}
-                    <div style={{ position: 'relative', marginBottom: 24, display: 'flex', justifyContent: 'center' }}>
-                      <div style={{ width: 88, height: 88, borderRadius: 20, overflow: 'hidden', border: `2px solid ${agent.color}40` }}>
+                    <div style={{ position: 'relative', marginBottom: 18, display: 'flex', justifyContent: 'center' }}>
+                      <div style={{ width: 80, height: 80, borderRadius: 20, overflow: 'hidden', border: `2px solid ${agent.color}40` }}>
                         <img src={agent.avatar} alt={agent.name} style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top' }} />
                       </div>
                       <div style={{
@@ -2410,11 +2410,11 @@ ${invoiceTiers}
       const handleSampleQ = () => sendMessage(selectedAgent.sampleQuestion);
 
       return (
-        <section id="lab" style={{ padding: '100px 24px' }}>
+        <section id="lab" style={{ padding: '85px 24px' }}>
           <div className="max-w-6xl mx-auto">
 
-            <div className="fade-in-up" style={{ textAlign: 'center', marginBottom: 56 }}>
-              <div style={{ fontSize: 12, fontWeight: 700, letterSpacing: '0.12em', color: 'rgba(255,255,255,0.28)', textTransform: 'uppercase', marginBottom: 16 }}>
+            <div className="fade-in-up" style={{ textAlign: 'center', marginBottom: 48 }}>
+              <div style={{ fontSize: 12, fontWeight: 700, letterSpacing: '0.12em', color: 'rgba(255,255,255,0.28)', textTransform: 'uppercase', marginBottom: 14 }}>
                 {(() => {
                   const names = { hvac: 'HVAC', electrical: 'Electrical', plumbing: 'Plumbing', 'auto-services': 'Auto Services', 'fit-out': 'Fit-Out', 'health-wellness': 'Health & Wellness', 'home-and-office-automation': 'Home & Office Automation', handyman: 'Handyman' };
                   return selectedTrade && names[selectedTrade]
@@ -3089,11 +3089,11 @@ ${invoiceTiers}
       ];
 
       return (
-        <section id="knowledgebase" style={{ padding: '120px 24px', background: 'rgba(255,255,255,0.015)' }}>
+        <section id="knowledgebase" style={{ padding: '100px 24px', background: 'rgba(255,255,255,0.015)' }}>
           <div className="max-w-5xl mx-auto">
 
-            <div className="fade-in-up" style={{ textAlign: 'center', marginBottom: 72 }}>
-              <div style={{ fontSize: 12, fontWeight: 700, letterSpacing: '0.12em', color: 'rgba(255,255,255,0.28)', textTransform: 'uppercase', marginBottom: 16 }}>
+            <div className="fade-in-up" style={{ textAlign: 'center', marginBottom: 56 }}>
+              <div style={{ fontSize: 12, fontWeight: 700, letterSpacing: '0.12em', color: 'rgba(255,255,255,0.28)', textTransform: 'uppercase', marginBottom: 14 }}>
                 The Secret Weapon
               </div>
               <h2 style={{ fontSize: 'clamp(32px, 5vw, 54px)', fontWeight: 900, lineHeight: 1.05, letterSpacing: '-0.02em', marginBottom: 24 }}>
@@ -3105,7 +3105,7 @@ ${invoiceTiers}
               </p>
             </div>
 
-            <div className="fade-in-up" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 48, alignItems: 'center', marginBottom: 72 }}>
+            <div className="fade-in-up" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 48, alignItems: 'center', marginBottom: 56 }}>
 
               <div>
                 <h3 style={{ fontSize: 26, fontWeight: 800, marginBottom: 20, lineHeight: 1.2 }}>
@@ -3202,11 +3202,11 @@ ${invoiceTiers}
       ];
 
       return (
-        <section id="how" style={{ padding: '120px 24px', background: 'rgba(255,255,255,0.015)' }}>
+        <section id="how" style={{ padding: '100px 24px', background: 'rgba(255,255,255,0.015)' }}>
           <div className="max-w-5xl mx-auto">
 
-            <div className="fade-in-up" style={{ textAlign: 'center', marginBottom: 64 }}>
-              <div style={{ fontSize: 12, fontWeight: 700, letterSpacing: '0.12em', color: 'rgba(255,255,255,0.28)', textTransform: 'uppercase', marginBottom: 16 }}>How It Works</div>
+            <div className="fade-in-up" style={{ textAlign: 'center', marginBottom: 52 }}>
+              <div style={{ fontSize: 12, fontWeight: 700, letterSpacing: '0.12em', color: 'rgba(255,255,255,0.28)', textTransform: 'uppercase', marginBottom: 14 }}>How It Works</div>
               <h2 style={{ fontSize: 'clamp(32px, 5vw, 50px)', fontWeight: 900, marginBottom: 14, letterSpacing: '-0.02em' }}>Simple. And it stays simple.</h2>
               <p style={{ color: 'rgba(255,255,255,0.70)', fontSize: 18, maxWidth: 480, margin: '0 auto' }}>
                 Try us free for 14 days. No commitment. No learning curve. No charge until you say go.
@@ -3215,7 +3215,7 @@ ${invoiceTiers}
 
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 20 }}>
               {steps.map((step, i) => (
-                <div key={i} className="glass fade-in-up" style={{ borderRadius: 24, padding: 32 }}>
+                <div key={i} className="glass fade-in-up" style={{ borderRadius: 24, padding: 26 }}>
                   <div className="gradient-text" style={{ fontSize: 48, fontWeight: 900, lineHeight: 1, marginBottom: 16, opacity: 0.45 }}>{step.num}</div>
                   <h3 style={{ fontWeight: 700, fontSize: 18, marginBottom: 12, lineHeight: 1.3 }}>{step.title}</h3>
                   <p style={{ color: 'rgba(255,255,255,0.75)', lineHeight: 1.7, fontSize: 15, fontWeight: 400 }}>{step.text}</p>
@@ -3315,11 +3315,11 @@ ${invoiceTiers}
       ];
 
       return (
-        <section id="features" style={{ padding: '120px 24px' }}>
+        <section id="features" style={{ padding: '100px 24px' }}>
           <div className="max-w-6xl mx-auto">
 
-            <div className="fade-in-up" style={{ textAlign: 'center', marginBottom: 64 }}>
-              <div style={{ fontSize: 12, fontWeight: 700, letterSpacing: '0.12em', color: 'rgba(255,255,255,0.28)', textTransform: 'uppercase', marginBottom: 16 }}>Why Buddees</div>
+            <div className="fade-in-up" style={{ textAlign: 'center', marginBottom: 52 }}>
+              <div style={{ fontSize: 12, fontWeight: 700, letterSpacing: '0.12em', color: 'rgba(255,255,255,0.28)', textTransform: 'uppercase', marginBottom: 14 }}>Why Buddees</div>
               <h2 style={{ fontSize: 'clamp(32px, 5vw, 50px)', fontWeight: 900, marginBottom: 14, letterSpacing: '-0.02em' }}>
                 Built different.<br/>
                 <span className="gradient-text">Works different.</span>
@@ -3538,7 +3538,7 @@ ${invoiceTiers}
       };
 
       return (
-        <footer style={{ padding: '80px 24px 48px', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+        <footer style={{ padding: '64px 24px 40px', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
           <div className="max-w-5xl mx-auto">
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 48, marginBottom: 64 }}>
 
@@ -4150,12 +4150,12 @@ ${invoiceTiers}
       );
 
       return (
-        <section id="pricing" style={{ padding: '100px 24px' }}>
+        <section id="pricing" style={{ padding: '85px 24px' }}>
           <div className="max-w-6xl mx-auto">
 
             {/* Header */}
-            <div className="fade-in-up" style={{ textAlign: 'center', marginBottom: 52 }}>
-              <div style={{ fontSize: 12, fontWeight: 700, letterSpacing: '0.12em', color: 'rgba(255,255,255,0.28)', textTransform: 'uppercase', marginBottom: 16 }}>Pricing</div>
+            <div className="fade-in-up" style={{ textAlign: 'center', marginBottom: 44 }}>
+              <div style={{ fontSize: 12, fontWeight: 700, letterSpacing: '0.12em', color: 'rgba(255,255,255,0.28)', textTransform: 'uppercase', marginBottom: 14 }}>Pricing</div>
               <h2 style={{ fontSize: 'clamp(32px, 5vw, 50px)', fontWeight: 900, marginBottom: 14, letterSpacing: '-0.02em' }}>Try your team free for 14 days.</h2>
               <p style={{ color: 'rgba(255,255,255,0.45)', fontSize: 18, maxWidth: 520, margin: '0 auto' }}>
                 Every plan includes all 4 agents and every feature. No charge for 14 days. Pick the scale that fits your team today, upgrade anytime.
@@ -4163,7 +4163,7 @@ ${invoiceTiers}
             </div>
 
             {/* Billing toggle */}
-            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 12, marginBottom: 48 }}>
+            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 12, marginBottom: 40 }}>
               <span style={{ fontSize: 14, fontWeight: 600, color: billing === 'monthly' ? '#fff' : 'rgba(255,255,255,0.35)', transition: 'color 0.2s' }}>Monthly</span>
               <button
                 onClick={() => setBilling(b => b === 'monthly' ? 'annual' : 'monthly')}
@@ -4493,9 +4493,9 @@ ${invoiceTiers}
         <div>
           <Nav selectedTrade={selectedTrade} onTradeChange={setSelectedTrade} />
           <Hero />
+          <InterviewLab selectedAgent={selectedAgent} onSelectAgent={setSelectedAgent} selectedTrade={selectedTrade} />
           <BrandStory />
           <AgentGallery onSelect={handleSelectFromGallery} selectedId={selectedAgent?.id} />
-          <InterviewLab selectedAgent={selectedAgent} onSelectAgent={setSelectedAgent} selectedTrade={selectedTrade} />
           <Knowledgebase />
           <FeatureCards />
           <HowItWorks />
