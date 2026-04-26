@@ -324,44 +324,91 @@
     .modal-fine { font-size: 11px; color: var(--text-muted); text-align: center; margin-top: 14px; }
 
     /* ─── RESPONSIVE ─── */
-    @media (max-width: 640px) {
+
+    /* ── TABLET: 769-1024px ── */
+    @media (min-width: 769px) and (max-width: 1024px) {
+      .nav { padding: 16px 24px; }
+      .hero { padding: 48px 20px 36px; }
+      .container { padding: 0 20px 60px; }
+      .calc-card { padding: 32px 28px; }
+      .breakdown-grid { gap: 14px; }
+      .bc { padding: 20px; }
+      .pkg-card { padding: 24px; gap: 20px; }
+    }
+
+    /* ── MOBILE: up to 768px ── */
+    @media (max-width: 768px) {
       .nav { padding: 14px 16px; }
       .nav-logo { height: 24px; }
-      .hero { padding: 40px 16px 32px; }
-      .hero h1 { font-size: 28px; line-height: 1.15; }
+      .nav > div { gap: 16px; }
+      .nav-back { font-size: 13px; }
+      .hero { padding: 36px 16px 28px; }
+      .hero h1 { font-size: clamp(26px, 7vw, 36px); line-height: 1.15; }
       .hero p { font-size: 15px; }
-      .container { padding: 0 12px 60px; }
-      .calc-card { padding: 20px 14px; border-radius: 14px; }
+      .container { padding: 0 14px 48px; }
+      .calc-card { padding: 22px 16px; border-radius: 16px; }
       .form-grid, .form-grid.three { grid-template-columns: 1fr; gap: 14px; }
       .form-group label { font-size: 13px; }
-      input[type="number"], select { font-size: 16px; padding: 12px 14px; }
-      .toggle-btn { font-size: 13px; padding: 11px 6px; }
-      .calc-btn { font-size: 15px; padding: 15px; }
+      input[type="number"], select { font-size: 16px; padding: 13px 14px; }
+      .toggle-btn { font-size: 13px; padding: 12px 8px; }
+      .calc-btn { font-size: 16px; padding: 16px; border-radius: 12px; }
       .section-label { font-size: 10px; margin-bottom: 14px; }
-      .res-hero { padding: 24px 16px; border-radius: 14px; }
-      .res-hero .big-num { font-size: 44px; }
+
+      /* Results hero */
+      .res-hero { padding: 24px 16px; border-radius: 16px; }
+      .res-hero .big-num { font-size: clamp(40px, 12vw, 56px); }
+      .res-hero .eyebrow { font-size: 11px; }
       .res-hero .sub { font-size: 14px; margin-bottom: 20px; }
-      .meta-row { gap: 20px; }
+      .meta-row { gap: 16px; }
       .meta-stat .val { font-size: 20px; }
       .meta-stat .lbl { font-size: 11px; }
+
+      /* Breakdown cards */
       .breakdown-grid { grid-template-columns: 1fr; gap: 12px; }
-      .bc { padding: 18px; border-radius: 12px; }
-      .bc-amount { font-size: 24px; }
-      .bc-name { font-size: 13px; }
-      .bc-note { font-size: 11px; }
+      .bc { padding: 18px; border-radius: 14px; }
+      .bc-amount { font-size: 26px; }
+      .bc-name { font-size: 14px; }
+      .bc-note { font-size: 12px; }
+      .bc-icon { width: 36px; height: 36px; font-size: 17px; margin-bottom: 12px; }
+
+      /* Chart */
       .chart-card { padding: 18px; border-radius: 14px; }
       .chart-card h3 { font-size: 14px; margin-bottom: 16px; }
-      .chart-wrap { height: 200px; }
-      .pkg-card { flex-direction: column; align-items: flex-start; padding: 20px 18px; border-radius: 14px; gap: 16px; }
-      .pkg-name { font-size: 18px; }
-      .pkg-price { font-size: 28px; }
-      .pkg-cta { width: 100%; text-align: center; padding: 14px; }
-      .modal { padding: 24px 18px; border-radius: 18px; max-height: 90vh; overflow-y: auto; }
+      .chart-wrap { height: 220px; }
+
+      /* Package recommendation */
+      .pkg-card { flex-direction: column; align-items: stretch; padding: 22px 18px; border-radius: 16px; gap: 16px; }
+      .pkg-name { font-size: 20px; }
+      .pkg-price { font-size: 30px; }
+      .pkg-cta { width: 100%; text-align: center; padding: 15px; font-size: 15px; }
+
+      /* Lock overlay */
+      .lock-overlay { padding: 20px 16px 8px; }
+      .lock-text { font-size: 14px; }
+      .unlock-btn { width: 100%; padding: 15px 24px; font-size: 15px; }
+
+      /* Modal */
+      .modal-bg { padding: 12px; align-items: flex-start; padding-top: 4vh; }
+      .modal { padding: 24px 18px; border-radius: 18px; max-height: 92vh; overflow-y: auto; }
+      .modal-icon { width: 44px; height: 44px; font-size: 22px; margin-bottom: 16px; }
       .modal h2 { font-size: 19px; }
       .modal p { font-size: 13px; margin-bottom: 16px; }
-      .modal-fields input, .modal-fields select { font-size: 16px; padding: 12px 14px; }
-      .modal-submit { font-size: 15px; padding: 14px; }
-      .modal-bg { padding: 12px; align-items: flex-start; padding-top: 5vh; }
+      .modal-fields input, .modal-fields select { font-size: 16px; padding: 13px 14px; }
+      .modal-submit { font-size: 16px; padding: 15px; border-radius: 12px; }
+
+      /* Methodology */
+      #methodology .calc-card { padding: 18px 14px; }
+    }
+
+    /* ── SMALL PHONES: up to 380px ── */
+    @media (max-width: 380px) {
+      .hero h1 { font-size: 24px; }
+      .hero p { font-size: 14px; }
+      .res-hero .big-num { font-size: 36px; }
+      .meta-row { flex-direction: column; gap: 12px; align-items: center; }
+      .pkg-price { font-size: 26px; }
+      .nav-back { font-size: 12px; }
+      .nav > div { gap: 10px; }
     }
   </style>
 </head>
