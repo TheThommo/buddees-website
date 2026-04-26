@@ -252,51 +252,126 @@
 
     /* ── RESPONSIVE ── */
 
-    /* Tablet: 769-1024px */
-    @media (min-width: 769px) and (max-width: 1024px) {
-      .kb-grid { grid-template-columns: repeat(2, 1fr) !important; }
-      .lab-grid { grid-template-columns: 180px 1fr !important; }
-    }
-
     /* Medium screens: compress nav so all 7 links + trade selector fit */
     @media (min-width: 769px) and (max-width: 1180px) {
       .desktop-nav-links { gap: 10px !important; }
       .desktop-nav-links .nav-link { font-size: 12px !important; }
     }
 
-    /* Mobile: up to 768px */
+    /* ── TABLET: 769-1024px ── */
+    @media (min-width: 769px) and (max-width: 1024px) {
+      /* Agent cards: 2-column on tablets */
+      #agents .max-w-6xl > div:last-child { grid-template-columns: repeat(2, 1fr) !important; }
+
+      /* Feature cards: 2-column on tablets */
+      #features .max-w-6xl > div:last-child { grid-template-columns: repeat(2, 1fr) !important; }
+
+      /* How-it-works: 2-column on tablets */
+      #how .max-w-5xl > div:last-child { grid-template-columns: repeat(2, 1fr) !important; }
+
+      /* Pricing: 3 columns still fit on tablets, but tighter */
+      .pricing-grid { gap: 14px !important; }
+
+      /* Section padding tighter on tablets */
+      section { padding-left: 20px !important; padding-right: 20px !important; }
+
+      /* Hero: remove min-height so content drives height */
+      .hero-section { min-height: auto !important; padding-top: 100px !important; padding-bottom: 56px !important; }
+
+      /* KB grid */
+      .kb-grid { grid-template-columns: repeat(2, 1fr) !important; }
+
+      /* Lab grid */
+      .lab-grid { grid-template-columns: 180px 1fr !important; }
+    }
+
+    /* ── MOBILE: up to 768px ── */
     @media (max-width: 768px) {
-      /* Nav */
+      /* ─ Nav ─ */
       .desktop-nav-links { display: none !important; }
       .mobile-menu-btn { display: flex !important; }
-
-      /* Mobile nav dropdown */
       .mobile-menu-open { display: flex !important; }
 
-      /* Hero */
-      .hero-stats { gap: 32px !important; }
+      /* ─ Hero ─ */
+      .hero-section {
+        min-height: auto !important;
+        padding-top: 80px !important;
+        padding-bottom: 48px !important;
+      }
+      .hero-section h1 {
+        font-size: clamp(36px, 10vw, 52px) !important;
+        margin-bottom: 18px !important;
+      }
+      .hero-section .hero-ctas {
+        flex-direction: column !important;
+        align-items: center;
+        gap: 10px !important;
+        margin-bottom: 36px !important;
+      }
+      .hero-ctas a {
+        width: 100%;
+        max-width: 320px;
+        text-align: center;
+        padding: 14px 28px !important;
+        font-size: 16px !important;
+      }
+      .hero-stats {
+        display: grid !important;
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 20px 16px !important;
+        max-width: 320px;
+        margin: 0 auto !important;
+      }
+      .hero-stats > div .gradient-text { font-size: 28px !important; }
       .hero-avatars { display: none !important; }
-      .hero-ctas { flex-direction: column !important; align-items: center; }
-      .hero-ctas a { width: 100%; max-width: 320px; text-align: center; }
 
-      /* Interview Lab: stack vertically */
-      .lab-grid { grid-template-columns: 1fr !important; }
-      .lab-agent-sidebar { flex-direction: row !important; overflow-x: auto; gap: 8px !important; padding-bottom: 8px; -webkit-overflow-scrolling: touch; }
-      .lab-agent-sidebar > .sidebar-label { display: none !important; }
-      .lab-agent-btn { flex-shrink: 0; min-width: 110px; }
+      /* ─ Section padding (mobile) ─ */
+      section { padding-left: 16px !important; padding-right: 16px !important; }
+      #lab          { padding-top: 44px !important; padding-bottom: 44px !important; }
+      #story        { padding-top: 44px !important; padding-bottom: 44px !important; }
+      #agents       { padding-top: 44px !important; padding-bottom: 44px !important; }
+      #knowledgebase{ padding-top: 44px !important; padding-bottom: 44px !important; }
+      #how          { padding-top: 44px !important; padding-bottom: 44px !important; }
+      #features     { padding-top: 44px !important; padding-bottom: 44px !important; }
+      #pricing      { padding-top: 44px !important; padding-bottom: 44px !important; }
+      footer        { padding-top: 36px !important; padding-bottom: 24px !important; }
 
-      /* Lab section: reduce padding so panel sits high enough on screen */
-      #lab { padding: 52px 16px 36px !important; }
-
-      /* Chat panel — dvh tracks the visual viewport including keyboard changes */
-      .lab-chat-panel {
-        height: min(440px, 58dvh) !important;
-        min-width: 0 !important;
-        max-width: 100% !important;
-        border-radius: 18px !important;
+      /* ─ Section headers: tighter on mobile ─ */
+      #lab .fade-in-up:first-child,
+      #agents .fade-in-up:first-child,
+      #knowledgebase .fade-in-up:first-child,
+      #how .fade-in-up:first-child,
+      #features .fade-in-up:first-child,
+      #pricing .fade-in-up:first-child {
+        margin-bottom: 32px !important;
+      }
+      #lab h2, #agents h2, #knowledgebase h2,
+      #how h2, #features h2, #pricing h2 {
+        font-size: clamp(26px, 7vw, 38px) !important;
+        margin-bottom: 10px !important;
+      }
+      #lab p, #agents p, #knowledgebase p,
+      #how p, #features p, #pricing p {
+        font-size: 15px !important;
       }
 
-      /* Messages area: shrink to fit when keyboard is open */
+      /* ─ Interview Lab ─ */
+      .lab-grid { grid-template-columns: 1fr !important; }
+      .lab-agent-sidebar {
+        flex-direction: row !important;
+        overflow-x: auto;
+        gap: 8px !important;
+        padding-bottom: 8px;
+        -webkit-overflow-scrolling: touch;
+      }
+      .lab-agent-sidebar > .sidebar-label { display: none !important; }
+      .lab-agent-btn { flex-shrink: 0; min-width: 110px; }
+      .lab-chat-panel {
+        height: min(420px, 55dvh) !important;
+        min-width: 0 !important;
+        max-width: 100% !important;
+        border-radius: 16px !important;
+      }
       .lab-messages {
         -webkit-overflow-scrolling: touch !important;
         overscroll-behavior: contain !important;
@@ -304,88 +379,154 @@
         flex: 1 1 0 !important;
         min-height: 0 !important;
       }
-
-      /* Chat input row: stay pinned at bottom of panel, never overflow */
       .lab-chat-panel > div:last-child {
-        padding: 10px 12px !important;
+        padding: 8px 10px !important;
         flex-shrink: 0 !important;
       }
 
-      /* Chat input: prevent horizontal overflow on narrow screens */
+      /* ─ Inputs: prevent iOS zoom (font-size >= 16px) ─ */
       .chat-input {
         font-size: 16px !important;
         min-width: 0 !important;
         padding: 10px 12px !important;
         border-radius: 12px !important;
       }
-
-      /* Voice and send buttons: slightly smaller on mobile */
-      .lab-chat-panel button[style*="width: 44"] {
-        width: 40px !important;
-        height: 40px !important;
-      }
-
-      /* Section top/bottom padding overrides — inline React styles need !important */
-      #lab          { padding-top: 52px !important; padding-bottom: 52px !important; }
-      #story        { padding-top: 52px !important; padding-bottom: 52px !important; }
-      #agents       { padding-top: 52px !important; padding-bottom: 52px !important; }
-      #knowledgebase{ padding-top: 52px !important; padding-bottom: 52px !important; }
-      #how          { padding-top: 52px !important; padding-bottom: 52px !important; }
-      #features     { padding-top: 52px !important; padding-bottom: 52px !important; }
-      #features .max-w-6xl > div:last-child { grid-template-columns: repeat(2, 1fr) !important; }
-      #pricing      { padding-top: 52px !important; padding-bottom: 52px !important; }
-      footer        { padding-top: 40px !important; padding-bottom: 28px !important; }
-
-      /* Hero uses Tailwind pt-24 pb-56 — override via class */
-      .hero-section  { padding-top: 88px !important; padding-bottom: 64px !important; }
-
-      /* Prevent iOS Safari from zooming on input focus (font-size must be ≥ 16px) */
-      .chat-input { font-size: 16px !important; }
       input, textarea, select { font-size: 16px !important; }
 
-      /* Knowledgebase */
+      /* ─ Story section ─ */
+      #story .max-w-5xl > div:first-child {
+        grid-template-columns: 1fr !important;
+        gap: 28px !important;
+      }
+      #story h2 { font-size: clamp(28px, 8vw, 42px) !important; }
+      #story p { font-size: 15px !important; line-height: 1.7 !important; margin-bottom: 14px !important; }
+
+      /* ─ Agent cards: 2-column on phones ─ */
+      #agents .max-w-6xl > div:last-child {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 12px !important;
+      }
+      .agent-card {
+        padding: 20px 14px !important;
+        border-radius: 20px !important;
+      }
+      .agent-card h3 { font-size: 17px !important; }
+      .agent-card > div:first-child {
+        margin-bottom: 10px !important;
+      }
+      .agent-card > div:first-child > div:first-child {
+        width: 64px !important; height: 64px !important;
+      }
+      .agent-card p { font-size: 12px !important; line-height: 1.5 !important; }
+      .agent-card > div:last-child { gap: 5px !important; }
+      .agent-card > div:last-child > div { font-size: 11px !important; }
+
+      /* ─ Knowledgebase ─ */
       .kb-grid { grid-template-columns: 1fr !important; }
+      #knowledgebase h3 { font-size: 20px !important; }
 
-      /* Modal */
-      .modal-card { max-height: 92vh; border-radius: 20px; }
-      .modal-body { padding: 24px 20px 28px !important; }
+      /* ─ How-it-works ─ */
+      #how .max-w-5xl > div:last-child {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 12px !important;
+      }
+      #how .glass {
+        padding: 20px !important;
+        border-radius: 18px !important;
+      }
+      #how .glass h3 { font-size: 15px !important; }
+      #how .glass p { font-size: 13px !important; }
+      #how .gradient-text { font-size: 36px !important; }
 
-      /* Pricing grid */
-      .pricing-grid { grid-template-columns: 1fr !important; }
+      /* ─ Feature cards: 2-column on phones ─ */
+      #features .max-w-6xl > div:last-child {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 12px !important;
+      }
+      .feature-card {
+        padding: 18px 16px !important;
+        border-radius: 14px !important;
+      }
+      .fc-icon { width: 40px !important; height: 40px !important; margin-bottom: 10px !important; }
+      .fc-title { font-size: 13px !important; }
+      .fc-body { font-size: 12px !important; line-height: 1.6 !important; }
 
-      /* Graduate modal form grid */
-      .grad-form-row { grid-template-columns: 1fr !important; }
+      /* ─ Pricing ─ */
+      .pricing-grid { grid-template-columns: 1fr !important; gap: 16px !important; }
+      .pricing-grid > div { border-radius: 20px !important; padding: 24px 20px !important; }
+      .pricing-grid > div[style*="scale"] { transform: none !important; }
+      #pricing .glass[style*="border-left"] { padding: 18px !important; }
 
-      /* General section padding left/right */
-      section { padding-left: 16px !important; padding-right: 16px !important; }
+      /* Pricing CTA buttons: full-width, thumb-friendly */
+      .pricing-grid a[style*="borderRadius: 100"] {
+        width: 100% !important;
+        padding: 14px 24px !important;
+        font-size: 15px !important;
+        text-align: center !important;
+        display: block !important;
+      }
 
-      /* Story section: stack columns on mobile */
-      #story .max-w-5xl > div:first-child { grid-template-columns: 1fr !important; gap: 40px !important; }
-
-      /* Agent cards: ensure single column on narrow phones */
-      #agents .max-w-6xl > div:last-child { grid-template-columns: 1fr !important; }
-
-      /* How-it-works cards: tighter padding */
-      #how .glass { padding: 24px !important; }
-
-      /* Demo bar: tighter padding */
-      #pricing .glass[style*="border-left"] { padding: 20px !important; }
-
-      /* Footer: tighter padding on mobile */
+      /* ─ Footer ─ */
       footer { padding-left: 16px !important; padding-right: 16px !important; }
-      #early-access { padding: 20px !important; border-radius: 18px !important; }
+      footer .max-w-5xl > div:first-child {
+        grid-template-columns: 1fr !important;
+        gap: 28px !important;
+      }
+      footer .max-w-5xl > div:last-child {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
+      #early-access {
+        padding: 20px !important;
+        border-radius: 18px !important;
+      }
       #early-access h3 { font-size: 19px !important; }
 
-      /* Footer grid: allow single column on narrow screens */
-      footer .max-w-5xl > div:first-child { grid-template-columns: 1fr !important; gap: 32px !important; }
+      /* Footer form inputs: full width, proper touch targets */
+      #early-access input,
+      #early-access select {
+        padding: 12px 14px !important;
+        font-size: 16px !important;
+        border-radius: 10px !important;
+      }
+      #early-access button[type="submit"] {
+        width: 100% !important;
+        padding: 14px !important;
+        font-size: 16px !important;
+        border-radius: 12px !important;
+      }
 
-      /* Footer bottom bar: stack on small screens */
-      footer .max-w-5xl > div:last-child { flex-direction: column; align-items: center; text-align: center; }
+      /* ─ Modals ─ */
+      .modal-card { max-height: 92vh; border-radius: 20px; }
+      .modal-body { padding: 20px 18px 24px !important; }
+      .modal-body h1 { font-size: 20px !important; }
+      .grad-form-row { grid-template-columns: 1fr !important; }
     }
 
-    /* Single column feature grid on small phones */
-    @media (max-width: 520px) {
+    /* ── SMALL PHONES: up to 380px ── */
+    @media (max-width: 380px) {
+      /* Single column agent cards on very small phones */
+      #agents .max-w-6xl > div:last-child { grid-template-columns: 1fr !important; }
+
+      /* Single column feature cards */
       #features .max-w-6xl > div:last-child { grid-template-columns: 1fr !important; }
+
+      /* Single column how-it-works */
+      #how .max-w-5xl > div:last-child { grid-template-columns: 1fr !important; }
+
+      /* Hero stats: even tighter */
+      .hero-stats { max-width: 280px !important; }
+      .hero-stats > div .gradient-text { font-size: 24px !important; }
+
+      /* Smaller hero headline */
+      .hero-section h1 { font-size: 32px !important; }
+    }
+
+    /* ── MEDIUM PHONES: up to 520px ── */
+    @media (max-width: 520px) {
+      /* How-it-works: single column on smaller phones */
+      #how .max-w-5xl > div:last-child { grid-template-columns: 1fr !important; }
     }
 
     /* Hide mobile btn on desktop */
