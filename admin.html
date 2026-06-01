@@ -446,6 +446,28 @@
       letter-spacing: 0.5px;
       border-bottom: 1px solid var(--border);
     }
+
+    th.sortable {
+      cursor: pointer;
+      user-select: none;
+      transition: color 0.15s;
+      position: relative;
+      padding-right: 30px;
+    }
+    th.sortable:hover { color: var(--text-primary); }
+    th.sortable::after {
+      content: '⇅';
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 10px;
+      opacity: 0.35;
+    }
+    th.sortable.sort-asc::after { content: '↑'; opacity: 0.9; color: var(--accent-blue); }
+    th.sortable.sort-desc::after { content: '↓'; opacity: 0.9; color: var(--accent-blue); }
+    th.sortable.sort-asc,
+    th.sortable.sort-desc { color: var(--accent-blue); }
     
     td {
       padding: 12px 24px;
@@ -1239,21 +1261,32 @@
                   <option value="ROI Calculator">ROI Calculator</option>
                 </select>
                 <button class="btn btn-secondary btn-small" onclick="exportLeadsCSV()">Export CSV</button>
+                <div style="position:relative;display:inline-block">
+                  <button class="btn btn-small" onclick="this.nextElementSibling.style.display = this.nextElementSibling.style.display === 'block' ? 'none' : 'block'" style="background:linear-gradient(135deg,#FF3B30,#0066FF);color:#fff;border:none;font-weight:600;cursor:pointer;border-radius:6px;padding:6px 14px;font-size:12px">Bulk Email ▾</button>
+                  <div style="display:none;position:absolute;right:0;top:calc(100% + 6px);background:var(--bg-surface);border:1px solid var(--border-strong);border-radius:10px;padding:8px;min-width:200px;z-index:50;box-shadow:0 12px 40px rgba(0,0,0,0.5)">
+                    <div style="font-size:10px;color:var(--text-muted);text-transform:uppercase;padding:4px 8px;margin-bottom:4px">Send to filtered leads</div>
+                    <button onclick="bulkSendEmail('welcome');this.closest('div[style*=position]').querySelector('div[style*=display]').style.display='none'" style="display:block;width:100%;text-align:left;background:none;border:none;color:#34D399;font-size:12px;font-weight:600;padding:8px;border-radius:6px;cursor:pointer;font-family:inherit" onmouseover="this.style.background='rgba(255,255,255,0.05)'" onmouseout="this.style.background='none'">Welcome Email</button>
+                    <button onclick="bulkSendEmail('followup_48h');this.closest('div[style*=position]').querySelector('div[style*=display]').style.display='none'" style="display:block;width:100%;text-align:left;background:none;border:none;color:#60A5FA;font-size:12px;font-weight:600;padding:8px;border-radius:6px;cursor:pointer;font-family:inherit" onmouseover="this.style.background='rgba(255,255,255,0.05)'" onmouseout="this.style.background='none'">48hr Follow-up</button>
+                    <button onclick="bulkSendEmail('value_7d');this.closest('div[style*=position]').querySelector('div[style*=display]').style.display='none'" style="display:block;width:100%;text-align:left;background:none;border:none;color:#FFB400;font-size:12px;font-weight:600;padding:8px;border-radius:6px;cursor:pointer;font-family:inherit" onmouseover="this.style.background='rgba(255,255,255,0.05)'" onmouseout="this.style.background='none'">7-Day Value</button>
+                    <button onclick="bulkSendEmail('lastchance_14d');this.closest('div[style*=position]').querySelector('div[style*=display]').style.display='none'" style="display:block;width:100%;text-align:left;background:none;border:none;color:#FF3B30;font-size:12px;font-weight:600;padding:8px;border-radius:6px;cursor:pointer;font-family:inherit" onmouseover="this.style.background='rgba(255,255,255,0.05)'" onmouseout="this.style.background='none'">14-Day Last Chance</button>
+                    <div id="bulkEmailStatus" style="font-size:10px;color:var(--text-muted);padding:6px 8px 2px;text-align:center"></div>
+                  </div>
+                </div>
               </div>
             </div>
             <table>
               <thead>
                 <tr>
-                  <th style="width:50px">Score</th>
-                  <th>Name</th>
-                  <th>Email</th>
-                  <th>Trade</th>
-                  <th>Country</th>
-                  <th>Source</th>
-                  <th>Location</th>
-                  <th>Agent</th>
-                  <th>Status</th>
-                  <th>Date</th>
+                  <th class="sortable sort-desc" style="width:50px" data-sort="score" data-table="leads">Score</th>
+                  <th class="sortable" data-sort="name" data-table="leads">Name</th>
+                  <th class="sortable" data-sort="email" data-table="leads">Email</th>
+                  <th class="sortable" data-sort="trade" data-table="leads">Trade</th>
+                  <th class="sortable" data-sort="country" data-table="leads">Country</th>
+                  <th class="sortable" data-sort="source" data-table="leads">Source</th>
+                  <th class="sortable" data-sort="location" data-table="leads">Location</th>
+                  <th class="sortable" data-sort="agent" data-table="leads">Agent</th>
+                  <th class="sortable" data-sort="status" data-table="leads">Status</th>
+                  <th class="sortable" data-sort="date" data-table="leads">Date</th>
                 </tr>
               </thead>
               <tbody id="leadsBody">
@@ -1515,17 +1548,17 @@
               <table style="width:100%;font-size:13px;border-collapse:collapse;min-width:900px">
                 <thead>
                   <tr>
-                    <th style="text-align:left;padding:8px 12px;color:var(--text-muted);font-weight:500;border-bottom:1px solid var(--border)">Name</th>
-                    <th style="text-align:left;padding:8px 12px;color:var(--text-muted);font-weight:500;border-bottom:1px solid var(--border)">Email</th>
-                    <th style="text-align:left;padding:8px 12px;color:var(--text-muted);font-weight:500;border-bottom:1px solid var(--border)">Business</th>
-                    <th style="text-align:left;padding:8px 12px;color:var(--text-muted);font-weight:500;border-bottom:1px solid var(--border)">State</th>
-                    <th style="text-align:right;padding:8px 12px;color:var(--text-muted);font-weight:500;border-bottom:1px solid var(--border)">Staff</th>
-                    <th style="text-align:right;padding:8px 12px;color:var(--text-muted);font-weight:500;border-bottom:1px solid var(--border)">Missed/Day</th>
-                    <th style="text-align:right;padding:8px 12px;color:var(--text-muted);font-weight:500;border-bottom:1px solid var(--border)">Job Value</th>
-                    <th style="text-align:right;padding:8px 12px;color:var(--text-muted);font-weight:500;border-bottom:1px solid var(--border)">Mo. Savings</th>
-                    <th style="text-align:right;padding:8px 12px;color:var(--text-muted);font-weight:500;border-bottom:1px solid var(--border)">Break-even</th>
-                    <th style="text-align:left;padding:8px 12px;color:var(--text-muted);font-weight:500;border-bottom:1px solid var(--border)">Plan</th>
-                    <th style="text-align:left;padding:8px 12px;color:var(--text-muted);font-weight:500;border-bottom:1px solid var(--border)">Date</th>
+                    <th class="sortable" data-sort="name" data-table="roi-leads" style="text-align:left;padding:8px 12px;color:var(--text-muted);font-weight:500;border-bottom:1px solid var(--border)">Name</th>
+                    <th class="sortable" data-sort="email" data-table="roi-leads" style="text-align:left;padding:8px 12px;color:var(--text-muted);font-weight:500;border-bottom:1px solid var(--border)">Email</th>
+                    <th class="sortable" data-sort="business" data-table="roi-leads" style="text-align:left;padding:8px 12px;color:var(--text-muted);font-weight:500;border-bottom:1px solid var(--border)">Business</th>
+                    <th class="sortable" data-sort="state" data-table="roi-leads" style="text-align:left;padding:8px 12px;color:var(--text-muted);font-weight:500;border-bottom:1px solid var(--border)">State</th>
+                    <th class="sortable" data-sort="staff" data-table="roi-leads" style="text-align:right;padding:8px 12px;color:var(--text-muted);font-weight:500;border-bottom:1px solid var(--border)">Staff</th>
+                    <th class="sortable" data-sort="missed" data-table="roi-leads" style="text-align:right;padding:8px 12px;color:var(--text-muted);font-weight:500;border-bottom:1px solid var(--border)">Missed/Day</th>
+                    <th class="sortable" data-sort="jobValue" data-table="roi-leads" style="text-align:right;padding:8px 12px;color:var(--text-muted);font-weight:500;border-bottom:1px solid var(--border)">Job Value</th>
+                    <th class="sortable sort-desc" data-sort="savings" data-table="roi-leads" style="text-align:right;padding:8px 12px;color:var(--text-muted);font-weight:500;border-bottom:1px solid var(--border)">Mo. Savings</th>
+                    <th class="sortable" data-sort="breakeven" data-table="roi-leads" style="text-align:right;padding:8px 12px;color:var(--text-muted);font-weight:500;border-bottom:1px solid var(--border)">Break-even</th>
+                    <th class="sortable" data-sort="plan" data-table="roi-leads" style="text-align:left;padding:8px 12px;color:var(--text-muted);font-weight:500;border-bottom:1px solid var(--border)">Plan</th>
+                    <th class="sortable" data-sort="date" data-table="roi-leads" style="text-align:left;padding:8px 12px;color:var(--text-muted);font-weight:500;border-bottom:1px solid var(--border)">Date</th>
                   </tr>
                 </thead>
                 <tbody id="roi-leads-body">
@@ -2087,6 +2120,47 @@
     let currentAgent = 'all';
     let currentLeadFilter = '';
     let currentLeadStatus = '';
+    let currentLeadSort = { key: 'score', dir: 'desc' };
+    let roiLeadsCache = [];
+
+    // ── SORTABLE COLUMNS ──
+    document.addEventListener('click', e => {
+      const th = e.target.closest('th.sortable');
+      if (!th) return;
+      const key = th.dataset.sort;
+      const table = th.dataset.table;
+
+      // Toggle direction
+      const row = th.parentElement;
+      const wasActive = th.classList.contains('sort-asc') || th.classList.contains('sort-desc');
+      const wasAsc = th.classList.contains('sort-asc');
+
+      // Clear all siblings
+      row.querySelectorAll('th.sortable').forEach(h => { h.classList.remove('sort-asc', 'sort-desc'); });
+
+      const dir = wasActive && !wasAsc ? 'asc' : wasActive && wasAsc ? 'desc' : 'desc';
+      th.classList.add(dir === 'asc' ? 'sort-asc' : 'sort-desc');
+
+      if (table === 'leads') {
+        currentLeadSort = { key, dir };
+        sortLeadsData();
+        applyLeadsFilters();
+      } else if (table === 'roi-leads') {
+        sortROILeadsAndRender(key, dir);
+      }
+    });
+
+    function sortLeadsData() {
+      const { key, dir } = currentLeadSort;
+      const mult = dir === 'asc' ? 1 : -1;
+      leadsDataCache.sort((a, b) => {
+        let va = a[key] ?? '';
+        let vb = b[key] ?? '';
+        if (key === 'score') return mult * ((va || 0) - (vb || 0));
+        if (key === 'date') return mult * String(va).localeCompare(String(vb));
+        return mult * String(va).toLowerCase().localeCompare(String(vb).toLowerCase());
+      });
+    }
 
     // Initialize on page load
     window.addEventListener('load', () => {
@@ -2832,11 +2906,15 @@
         }).join('');
       }
 
-      // ROI leads table
+      // ROI leads table - cache and render
+      roiLeadsCache = roiLeads;
+      renderROILeadsTable();
+    }
+
+    function renderROILeadsTable() {
       const leadsBody = document.getElementById('roi-leads-body');
-      if (roiLeads.length > 0) {
-        const sorted = [...roiLeads].sort((a,b) => (b.fields.Submitted||'').localeCompare(a.fields.Submitted||''));
-        leadsBody.innerHTML = sorted.map(r => {
+      if (roiLeadsCache.length > 0) {
+        leadsBody.innerHTML = roiLeadsCache.map(r => {
           const f = r.fields;
           return `<tr style="border-bottom:1px solid var(--border)">
             <td style="padding:10px 12px;color:var(--text-primary)">${f.Name || '—'}</td>
@@ -2852,7 +2930,23 @@
             <td style="padding:10px 12px;color:var(--text-muted)">${f.Submitted || '—'}</td>
           </tr>`;
         }).join('');
+      } else {
+        leadsBody.innerHTML = '<tr><td colspan="11" style="padding:16px 12px;color:var(--text-muted);text-align:center">No ROI leads yet</td></tr>';
       }
+    }
+
+    function sortROILeadsAndRender(key, dir) {
+      const fieldMap = { name:'Name', email:'Email', business:'Business Name', state:'State', staff:'ROI Staff', missed:'ROI Missed Calls', jobValue:'ROI Job Value', savings:'ROI Total Savings', breakeven:'ROI Break Even', plan:'ROI Plan', date:'Submitted' };
+      const numericKeys = ['staff','missed','jobValue','savings','breakeven'];
+      const field = fieldMap[key] || key;
+      const mult = dir === 'asc' ? 1 : -1;
+      roiLeadsCache.sort((a, b) => {
+        let va = a.fields[field] ?? '';
+        let vb = b.fields[field] ?? '';
+        if (numericKeys.includes(key)) return mult * ((parseFloat(va)||0) - (parseFloat(vb)||0));
+        return mult * String(va).toLowerCase().localeCompare(String(vb).toLowerCase());
+      });
+      renderROILeadsTable();
     }
 
     // Load Health - reads real localStorage buddees_usage written by buddees.html
@@ -3704,6 +3798,37 @@
         </div>
       </div>`;
 
+      // Email actions
+      const emailJson = JSON.stringify({ name: lead.name, email: lead.email, trade: lead.trade, business: lead.business }).replace(/'/g, "\\'").replace(/"/g, '&quot;');
+      html += `<div style="padding:16px;background:var(--bg-elevated);border-radius:12px;margin-bottom:24px;border:1px solid var(--border)">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+          <div style="font-size:13px;font-weight:700;color:#fff;display:flex;align-items:center;gap:8px">
+            <svg width="14" height="14" fill="none" stroke="#0066FF" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 4l-10 8L2 4"/></svg>
+            Email Nurture Sequence
+          </div>
+          <span style="font-size:10px;color:var(--text-muted)">via Resend</span>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+          <button onclick="sendLeadEmail('welcome', ${emailJson})" class="nurture-btn" style="background:rgba(52,211,153,0.1);border:1px solid rgba(52,211,153,0.25);color:#34D399;border-radius:8px;padding:10px 12px;font-size:12px;font-weight:600;cursor:pointer;text-align:left;font-family:inherit">
+            <div>Welcome Email</div>
+            <div style="font-size:10px;font-weight:400;color:rgba(52,211,153,0.6);margin-top:2px">Intro + setup CTA</div>
+          </button>
+          <button onclick="sendLeadEmail('followup_48h', ${emailJson})" class="nurture-btn" style="background:rgba(0,102,255,0.1);border:1px solid rgba(0,102,255,0.25);color:#60A5FA;border-radius:8px;padding:10px 12px;font-size:12px;font-weight:600;cursor:pointer;text-align:left;font-family:inherit">
+            <div>48hr Follow-up</div>
+            <div style="font-size:10px;font-weight:400;color:rgba(96,165,250,0.6);margin-top:2px">Stats + gentle nudge</div>
+          </button>
+          <button onclick="sendLeadEmail('value_7d', ${emailJson})" class="nurture-btn" style="background:rgba(255,180,0,0.1);border:1px solid rgba(255,180,0,0.25);color:#FFB400;border-radius:8px;padding:10px 12px;font-size:12px;font-weight:600;cursor:pointer;text-align:left;font-family:inherit">
+            <div>7-Day Value</div>
+            <div style="font-size:10px;font-weight:400;color:rgba(255,180,0,0.6);margin-top:2px">Agent breakdown + ROI</div>
+          </button>
+          <button onclick="sendLeadEmail('lastchance_14d', ${emailJson})" class="nurture-btn" style="background:rgba(255,59,48,0.1);border:1px solid rgba(255,59,48,0.25);color:#FF3B30;border-radius:8px;padding:10px 12px;font-size:12px;font-weight:600;cursor:pointer;text-align:left;font-family:inherit">
+            <div>14-Day Last Chance</div>
+            <div style="font-size:10px;font-weight:400;color:rgba(255,59,48,0.6);margin-top:2px">Urgency + final CTA</div>
+          </button>
+        </div>
+        <div id="emailSendStatus" style="margin-top:10px;font-size:11px;text-align:center;display:none"></div>
+      </div>`;
+
       // Interaction timeline
       const interactions = [];
       // Add conversations
@@ -4365,6 +4490,88 @@
       a.click();
       window.URL.revokeObjectURL(url);
       showToast('Leads exported successfully', 'success');
+    }
+
+    // ── LEAD EMAIL SYSTEM ──
+    async function sendLeadEmail(template, leadData) {
+      const statusEl = document.getElementById('emailSendStatus');
+      if (statusEl) {
+        statusEl.style.display = 'block';
+        statusEl.style.color = 'var(--text-muted)';
+        statusEl.textContent = 'Sending...';
+      }
+
+      try {
+        const resp = await fetch('/api/send-lead-email.php', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ template, ...leadData }),
+        });
+        const data = await resp.json();
+        if (data.success) {
+          if (statusEl) {
+            statusEl.style.color = '#34D399';
+            statusEl.textContent = `${template.replace(/_/g,' ')} sent to ${leadData.email}`;
+          }
+          showToast(`Email sent to ${leadData.name || leadData.email}`, 'success');
+        } else {
+          throw new Error(data.error || 'Unknown error');
+        }
+      } catch (err) {
+        if (statusEl) {
+          statusEl.style.color = '#FF3B30';
+          statusEl.textContent = 'Failed: ' + err.message;
+        }
+        showToast('Email failed: ' + err.message, 'error');
+      }
+    }
+
+    async function bulkSendEmail(template) {
+      const filtered = getFilteredLeads();
+      const validLeads = filtered.filter(l => l.email && l.email !== '-' && l.email.includes('@'));
+      if (validLeads.length === 0) {
+        showToast('No leads with valid emails in current filter', 'error');
+        return;
+      }
+      if (!confirm(`Send "${template.replace(/_/g,' ')}" email to ${validLeads.length} leads?`)) return;
+
+      const statusEl = document.getElementById('bulkEmailStatus');
+      let sent = 0, failed = 0;
+
+      for (const lead of validLeads) {
+        try {
+          const resp = await fetch('/api/send-lead-email.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ template, name: lead.name, email: lead.email, trade: lead.trade, business: lead.business }),
+          });
+          const data = await resp.json();
+          if (data.success) sent++;
+          else failed++;
+        } catch { failed++; }
+
+        if (statusEl) statusEl.textContent = `Sending... ${sent + failed}/${validLeads.length}`;
+
+        // Rate limit: 100ms between sends to avoid hammering Resend
+        await new Promise(r => setTimeout(r, 100));
+      }
+
+      if (statusEl) statusEl.textContent = `Done: ${sent} sent, ${failed} failed`;
+      showToast(`Bulk email: ${sent} sent, ${failed} failed`, sent > 0 ? 'success' : 'error');
+    }
+
+    function getFilteredLeads() {
+      let filtered = leadsDataCache;
+      if (currentLeadFilter) {
+        filtered = filtered.filter(l =>
+          l.name.toLowerCase().includes(currentLeadFilter.toLowerCase()) ||
+          l.email.toLowerCase().includes(currentLeadFilter.toLowerCase()) ||
+          (l.location || '').toLowerCase().includes(currentLeadFilter.toLowerCase())
+        );
+      }
+      if (currentLeadStatus) filtered = filtered.filter(l => l.status === currentLeadStatus);
+      if (currentLeadSource) filtered = filtered.filter(l => l.source === currentLeadSource);
+      return filtered;
     }
 
     // Update grad status
