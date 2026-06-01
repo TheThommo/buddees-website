@@ -14,10 +14,21 @@
  *   body      - Custom body HTML (only for template=custom)
  */
 
+ini_set('display_errors', 0);
+error_reporting(E_ALL);
+
 require_once __DIR__ . '/config.php';
+require_once __DIR__ . '/_auth.php';
 
 header('Content-Type: application/json');
-header('Access-Control-Allow-Origin: *');
+
+// CORS — admin only, same-origin with credentials
+$allowedOrigins = ['https://buddees.ai', 'https://www.buddees.ai'];
+$origin = $_SERVER['HTTP_ORIGIN'] ?? '';
+if (in_array($origin, $allowedOrigins)) {
+  header('Access-Control-Allow-Origin: ' . $origin);
+  header('Access-Control-Allow-Credentials: true');
+}
 header('Access-Control-Allow-Methods: POST, OPTIONS');
 header('Access-Control-Allow-Headers: Content-Type');
 
@@ -26,6 +37,9 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
   echo json_encode(['error' => 'POST only']);
   exit;
 }
+
+// ── Require admin session ──
+requireAdmin();
 
 $input = json_decode(file_get_contents('php://input'), true);
 $template = trim($input['template'] ?? '');

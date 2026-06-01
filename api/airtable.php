@@ -1,21 +1,31 @@
 <?php
+/**
+ * airtable.php — Admin-only Airtable proxy
+ *
+ * Requires valid admin session. For public writes, use public-lead.php instead.
+ */
+ini_set('display_errors', 0);
 error_reporting(E_ALL);
-ini_set('display_errors', 1);
 
-require_once 'config.php';
+require_once __DIR__ . '/config.php';
+require_once __DIR__ . '/_auth.php';
 
 header('Content-Type: application/json');
+
+// CORS — same-origin admin only, with credentials
 $allowedOrigins = ['https://buddees.ai', 'https://www.buddees.ai'];
-$origin = isset($_SERVER['HTTP_ORIGIN']) ? $_SERVER['HTTP_ORIGIN'] : '';
+$origin = $_SERVER['HTTP_ORIGIN'] ?? '';
 if (in_array($origin, $allowedOrigins)) {
   header('Access-Control-Allow-Origin: ' . $origin);
-} else {
-  header('Access-Control-Allow-Origin: https://buddees.ai');
+  header('Access-Control-Allow-Credentials: true');
 }
 header('Access-Control-Allow-Methods: GET, POST, PATCH');
 header('Access-Control-Allow-Headers: Content-Type');
 
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') { http_response_code(204); exit; }
+
+// ── Require admin session ──
+requireAdmin();
 
 $table    = isset($_GET['table']) ? rawurlencode($_GET['table']) : '';
 $recordId = isset($_GET['id'])    ? '/' . $_GET['id']        : '';

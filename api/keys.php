@@ -1,9 +1,12 @@
 <?php
-require_once 'config.php';
+ini_set('display_errors', 0);
+error_reporting(E_ALL);
+
+require_once __DIR__ . '/config.php';
 
 header('Content-Type: application/json');
 $allowedOrigins = ['https://buddees.ai', 'https://www.buddees.ai'];
-$origin = isset($_SERVER['HTTP_ORIGIN']) ? $_SERVER['HTTP_ORIGIN'] : '';
+$origin = $_SERVER['HTTP_ORIGIN'] ?? '';
 header('Access-Control-Allow-Origin: ' . (in_array($origin, $allowedOrigins) ? $origin : 'https://buddees.ai'));
 
 // Only expose what the browser legitimately needs

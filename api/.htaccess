@@ -1,0 +1,14 @@
+# Protect sensitive files from direct browser access
+<FilesMatch "(config\.php|config\.example\.php|_rate_limit_cache)">
+    Order Allow,Deny
+    Deny from all
+</FilesMatch>
+
+# Block directory listing
+Options -Indexes
+
+# Block access to rate limit cache directory
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteRule ^_rate_limit_cache/ - [F,L]
+</IfModule>

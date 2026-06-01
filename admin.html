@@ -2101,9 +2101,8 @@
 </div>
 
   <script>
-    const ADMIN_PASSWORD = 'buddees2026';
-    const SUPER_ADMIN_PIN = '8826';
-    // Airtable calls go through /api/airtable.php — token stays server-side in config.php
+    // Auth handled server-side via /api/_auth.php (HttpOnly session cookie)
+    // No passwords stored in client JS
     const TABLES = {
       earlyAccess: 'Early Access',
       conversations: 'Conversations',
@@ -2162,38 +2161,50 @@
       });
     }
 
-    // Initialize on page load
-    window.addEventListener('load', () => {
-      const adminSession = sessionStorage.getItem('buddees_admin');
-      if (adminSession) {
-        document.getElementById('loginScreen').style.display = 'none';
-        document.getElementById('dashboard').style.display = 'flex';
-        initDashboard();
-      }
+    // Initialize on page load — check server session
+    window.addEventListener('load', async () => {
+      try {
+        const resp = await fetch('/api/_auth.php?action=check', { credentials: 'include' });
+        const data = await resp.json();
+        if (data.authenticated) {
+          document.getElementById('loginScreen').style.display = 'none';
+          document.getElementById('dashboard').style.display = 'flex';
+          initDashboard();
+        }
+      } catch(e) { /* no session, show login */ }
     });
 
-    // Login
-    function attemptLogin() {
+    // Login — server-side auth
+    async function attemptLogin() {
       const password = document.getElementById('adminPassword').value;
       const errorEl = document.getElementById('loginError');
-      
-      if (password === ADMIN_PASSWORD) {
-        sessionStorage.setItem('buddees_admin', 'true');
-        errorEl.style.display = 'none';
-        document.getElementById('loginScreen').style.display = 'none';
-        document.getElementById('dashboard').style.display = 'flex';
-        document.getElementById('adminPassword').value = '';
-        initDashboard();
-      } else {
-        errorEl.textContent = 'Invalid password';
+      try {
+        const resp = await fetch('/api/_auth.php?action=login', {
+          method: 'POST',
+          credentials: 'include',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ password }),
+        });
+        const data = await resp.json();
+        if (data.success) {
+          errorEl.style.display = 'none';
+          document.getElementById('loginScreen').style.display = 'none';
+          document.getElementById('dashboard').style.display = 'flex';
+          document.getElementById('adminPassword').value = '';
+          initDashboard();
+        } else {
+          errorEl.textContent = data.error || 'Invalid password';
+          errorEl.style.display = 'block';
+        }
+      } catch(e) {
+        errorEl.textContent = 'Connection error';
         errorEl.style.display = 'block';
       }
     }
 
-    // Logout
-    function logout() {
-      sessionStorage.removeItem('buddees_admin');
-      sessionStorage.removeItem('buddees_superadmin');
+    // Logout — server-side session destroy
+    async function logout() {
+      try { await fetch('/api/_auth.php?action=logout', { method: 'POST', credentials: 'include' }); } catch(e) {}
       document.getElementById('dashboard').style.display = 'none';
       document.getElementById('loginScreen').style.display = 'flex';
       document.getElementById('adminPassword').value = '';
@@ -2295,7 +2306,8 @@
         do {
           let url = `/api/airtable.php?table=${encodeURIComponent(table)}`;
           if (offset) url += `&offset=${encodeURIComponent(offset)}`;
-          const response = await fetch(url);
+          const response = await fetch(url, { credentials: 'include' });
+          if (response.status === 401) { logout(); return []; }
           if (!response.ok) throw new Error(`HTTP ${response.status}`);
           const data = await response.json();
           if (data.records) allRecords.push(...data.records);
@@ -2794,6 +2806,7 @@
     function updateAffiliateStatus(recordId, status, selectEl) {
       fetch(`/api/airtable.php?table=Affiliates&id=${encodeURIComponent(recordId)}`, {
         method: 'PATCH',
+        credentials: 'include',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ fields: { Status: status } })
       }).then(r => r.ok ? showToast(`Status updated to ${status}`, 'success') : showToast('Update failed', 'error'))
@@ -4504,6 +4517,7 @@
       try {
         const resp = await fetch('/api/send-lead-email.php', {
           method: 'POST',
+          credentials: 'include',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ template, ...leadData }),
         });
@@ -4579,6 +4593,7 @@
       const url = `/api/airtable.php?table=${encodeURIComponent(TABLES.applications)}&id=${encodeURIComponent(recordId)}`;
       fetch(url, {
         method: 'PATCH',
+        credentials: 'include',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           fields: { Status: status }
@@ -4626,22 +4641,32 @@
       }
     }
 
-    // Check PIN and run pending action on success
-    function checkPin() {
+    // Check PIN via server-side auth
+    async function checkPin() {
       const pin = ['pin0', 'pin1', 'pin2', 'pin3'].map(id => document.getElementById(id).value).join('');
-      if (pin === SUPER_ADMIN_PIN) {
-        sessionStorage.setItem('buddees_superadmin', 'true');
-        document.getElementById('pinOverlay').classList.remove('active');
-        showToast('PIN verified', 'success');
-        if (_pendingPinAction) {
-          const fn = _pendingPinAction;
-          _pendingPinAction = null;
-          fn();
+      try {
+        const resp = await fetch('/api/_auth.php?action=elevate', {
+          method: 'POST',
+          credentials: 'include',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ pin }),
+        });
+        const data = await resp.json();
+        if (data.success) {
+          document.getElementById('pinOverlay').classList.remove('active');
+          showToast('PIN verified', 'success');
+          if (_pendingPinAction) {
+            const fn = _pendingPinAction;
+            _pendingPinAction = null;
+            fn();
+          }
+        } else {
+          showToast(data.error || 'Incorrect PIN', 'error');
+          ['pin0', 'pin1', 'pin2', 'pin3'].forEach(id => document.getElementById(id).value = '');
+          document.getElementById('pin0').focus();
         }
-      } else {
-        showToast('Incorrect PIN', 'error');
-        ['pin0', 'pin1', 'pin2', 'pin3'].forEach(id => document.getElementById(id).value = '');
-        document.getElementById('pin0').focus();
+      } catch(e) {
+        showToast('Connection error', 'error');
       }
     }
 

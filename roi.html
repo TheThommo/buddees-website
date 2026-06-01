@@ -697,7 +697,7 @@
       }
     }
     const _now = new Date();
-    fetch('/api/airtable.php?table=Page%20Views', {
+    fetch('/api/public-lead.php?table=Page%20Views', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ fields: {
@@ -956,7 +956,7 @@
     const r = results || {};
     let _loc = '';
     try { const _g = await fetch('https://ipapi.co/json/', { signal: AbortSignal.timeout(3000) }); const _d = await _g.json(); _loc = [_d.city, _d.region, _d.country_name].filter(Boolean).join(', '); } catch(e) {}
-    fetch('/api/airtable.php?table=Early%20Access', {
+    fetch('/api/public-lead.php?table=Early%20Access', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ fields: {
@@ -983,7 +983,7 @@
 
     /* update ROI Analytics record with the name so we know who requested it */
     if (roiRecordId) {
-      fetch(`/api/airtable.php?table=ROI%20Analytics&id=${roiRecordId}`, {
+      fetch(`/api/public-lead.php?table=ROI%20Analytics&id=${roiRecordId}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ fields: { Name: name, Converted: true } })
@@ -997,7 +997,7 @@
 
   /* ─── LOG ANONYMOUS CALCULATION ─── */
   function logAnonymousCalc(r) {
-    fetch('/api/airtable.php?table=ROI%20Analytics', {
+    fetch('/api/public-lead.php?table=ROI%20Analytics', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ fields: {

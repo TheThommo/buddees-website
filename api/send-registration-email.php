@@ -12,10 +12,16 @@
  *   state    - US state (optional)
  */
 
+ini_set('display_errors', 0);
+error_reporting(E_ALL);
+
 require_once __DIR__ . '/config.php';
+require_once __DIR__ . '/_auth.php'; // for rateLimitCheck
 
 header('Content-Type: application/json');
-header('Access-Control-Allow-Origin: *');
+$allowedOrigins = ['https://buddees.ai', 'https://www.buddees.ai'];
+$origin = $_SERVER['HTTP_ORIGIN'] ?? '';
+header('Access-Control-Allow-Origin: ' . (in_array($origin, $allowedOrigins) ? $origin : 'https://buddees.ai'));
 header('Access-Control-Allow-Methods: POST, OPTIONS');
 header('Access-Control-Allow-Headers: Content-Type');
 
@@ -24,6 +30,9 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
   echo json_encode(['error' => 'POST only']);
   exit;
 }
+
+// Rate limit: 5 registration emails per 10 minutes per IP
+rateLimitCheck('reg_email_' . ($_SERVER['REMOTE_ADDR'] ?? 'unknown'), 5, 600);
 
 $input = json_decode(file_get_contents('php://input'), true);
 $name     = trim($input['name']     ?? '');

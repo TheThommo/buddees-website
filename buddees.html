@@ -721,7 +721,7 @@
         if (geo.region)       fields.State   = geo.region;
         if (geo.country_name) fields.Country = geo.country_name;
       } catch(e) { /* geo lookup failed, log page view without it */ }
-      fetch('/api/airtable.php?table=Page%20Views', {
+      fetch('/api/public-lead.php?table=Page%20Views', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ fields })
@@ -780,7 +780,7 @@
       if (country)   fields.Country          = country;
       if (phone)     fields.Phone            = phone;
       if (zip)       fields.ZIP              = zip;
-      fetch(`/api/airtable.php?table=${encodeURIComponent(cfg.airtable_table || 'Early Access')}`, {
+      fetch(`/api/public-lead.php?table=${encodeURIComponent(cfg.airtable_table || 'Early Access')}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ fields }),
@@ -795,7 +795,7 @@
       if (!cfg) return;
       const fields = { Date: new Date().toISOString().split('T')[0], Agent: agentName };
       fields[fieldName] = value !== undefined ? value : 'Yes';
-      fetch(`/api/airtable.php?table=${encodeURIComponent(cfg.airtable_stats_table || 'Conversations')}`, {
+      fetch(`/api/public-lead.php?table=${encodeURIComponent(cfg.airtable_stats_table || 'Conversations')}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ fields })
@@ -809,7 +809,7 @@
       const table = cfg.airtable_stats_table || 'Conversations';
       const costRaw  = (tokens_in * 0.00000015) + (tokens_out * 0.0000006);
       const cost     = `$${costRaw.toFixed(6)}`;
-      fetch(`/api/airtable.php?table=${encodeURIComponent(table)}`, {
+      fetch(`/api/public-lead.php?table=${encodeURIComponent(table)}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -1727,7 +1727,7 @@ ${invoiceTiers}
       function logVoiceCall(fields) {
         const cfg = window.BUDDEES_CONFIG;
         if (!cfg) return;
-        return fetch('/api/airtable.php?table=Voice%20Calls', {
+        return fetch('/api/public-lead.php?table=Voice%20Calls', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ fields }),
@@ -1741,7 +1741,7 @@ ${invoiceTiers}
       function updateVoiceCall(fields) {
         const id = voiceRecordIdRef.current;
         if (!id) return;
-        fetch(`/api/airtable.php?table=Voice%20Calls&id=${id}`, {
+        fetch(`/api/public-lead.php?table=Voice%20Calls&id=${id}`, {
           method: 'PATCH',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ fields }),
@@ -4033,7 +4033,7 @@ ${invoiceTiers}
         const cfg = window.BUDDEES_CONFIG;
         try {
           // Save to Airtable
-          const atRes = await fetch(`/api/airtable.php?table=Graduate%20Applications`, {
+          const atRes = await fetch(`/api/public-lead.php?table=Graduate%20Applications`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ fields: {
